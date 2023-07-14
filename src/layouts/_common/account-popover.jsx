@@ -1,24 +1,24 @@
-import { m } from 'framer-motion';
+import { m } from 'framer-motion'
 // @mui
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import { alpha } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
+import Avatar from '@mui/material/Avatar'
+import Divider from '@mui/material/Divider'
+import MenuItem from '@mui/material/MenuItem'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
 // routes
-import { paths } from '../../routes/paths';
-import { useRouter } from '../../routes/hook/use-router';
+import { paths } from '../../routes/paths'
+import { useRouter } from '../../routes/hook/use-router'
 // hooks
-import { useMockedUser } from '../../hooks/use-mocked-user';
+import { useMockedUser } from '../../hooks/use-mocked-user'
 // auth
-import { useAuthContext } from '../../auth/hooks/use-auth-context';
+//import { useAuthContext } from '../../auth/hooks/use-auth-context'
 // components
-import { varHover } from '../../components/animate';
+import { varHover } from '../../components/animate'
 //import { useSnackbar } from '../../components/snackbar';
-import CustomPopover, { usePopover } from '../../components/custom-popover';
+import CustomPopover, { usePopover } from '../../components/custom-popover'
 
 // ----------------------------------------------------------------------
 
@@ -34,27 +34,27 @@ const OPTIONS = [
   {
     label: 'Settings',
     linkTo: paths.dashboard.user.account,
-  },
-];
+  }
+]
 
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
-  const router = useRouter();
+  const router = useRouter()
 
-  const { user } = useMockedUser();
+  const { user } = useMockedUser()
 
-  const { logout } = useAuthContext();
+  //const { logout } = useAuthContext()
 
-  //const { enqueueSnackbar } = useSnackbar();
+  //const { enqueueSnackbar } = useSnackbar()
 
-  const popover = usePopover();
+  const popover = usePopover()
 
   const handleLogout = async () => {
     try {
-      await logout();
+      //await logout()
       popover.onClose();
-      router.replace('/');
+      router.replace('/')
     } catch (error) {
       console.error(error);
       //enqueueSnackbar('Unable to logout!', { variant: 'error' });

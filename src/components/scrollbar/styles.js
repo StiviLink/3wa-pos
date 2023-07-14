@@ -1,6 +1,6 @@
-import SimpleBar from 'simplebar-react';
+import SimpleBar from 'simplebar-react'
 // @mui
-import { alpha, styled } from '@mui/material/styles';
+import { alpha, styled } from '@mui/material/styles'
 
 // ----------------------------------------------------------------------
 
@@ -23,4 +23,4 @@ export const StyledScrollbar = styled(SimpleBar)(({ theme }) => ({
   '& .simplebar-mask': {
     zIndex: 'inherit',
   },
-}));
+}))

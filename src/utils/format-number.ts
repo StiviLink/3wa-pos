@@ -1,5 +1,5 @@
 // @ts-ignore
-import numeral from 'numeral';
+import numeral from 'numeral'
 
 // ----------------------------------------------------------------------
 

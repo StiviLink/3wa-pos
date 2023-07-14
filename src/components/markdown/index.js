@@ -1,15 +1,15 @@
 // utils
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from 'react-markdown'
 // markdown plugins
-import rehypeRaw from 'rehype-raw';
-import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
+import rehypeRaw from 'rehype-raw'
+import remarkGfm from 'remark-gfm'
+import rehypeHighlight from 'rehype-highlight'
 // @mui
-import Link from '@mui/material/Link';
+import Link from '@mui/material/Link'
 // routes
-import RouterLink from '../../routes/components/router-link';
+import RouterLink from '../../routes/components/router-link'
 //
-import Image from '../image';
+import Image from '../image'
 //
 import StyledMarkdown from './styles'
 

@@ -2,14 +2,14 @@ import * as Yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 // @mui
-import LoadingButton from '@mui/lab/LoadingButton';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
+import LoadingButton from '@mui/lab/LoadingButton'
+import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
 // assets
 import { countries } from '../../assets/data'
 // components
@@ -19,7 +19,7 @@ import FormProvider, {
   RHFTextField,
   RHFRadioGroup,
   RHFAutocomplete,
-} from '../../components/hook-form';
+} from '../../components/hook-form'
 
 // ----------------------------------------------------------------------
 
@@ -52,7 +52,7 @@ export default function AddressNewForm({ open, onClose, onCreate }) {
   const methods = useForm({
     resolver: yupResolver(NewAddressSchema),
     defaultValues,
-  });
+  })
 
   const {
     handleSubmit,
@@ -67,10 +67,10 @@ export default function AddressNewForm({ open, onClose, onCreate }) {
         fullAddress: `${data.address}, ${data.city}, ${data.state}, ${data.country}, ${data.zipCode}`,
         addressType: data.addressType,
         primary: data.primary,
-      });
+      })
       onClose();
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   });
 

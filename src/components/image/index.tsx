@@ -1,12 +1,12 @@
-import { forwardRef } from 'react';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { forwardRef } from 'react'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 // @mui
 import { alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 //
-import { getRatio } from './utils';
+import { getRatio } from './utils'
 // @ts-ignore
-import { ImageProps } from './types';
+import { ImageProps } from './types'
 
 // ----------------------------------------------------------------------
 
