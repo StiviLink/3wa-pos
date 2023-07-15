@@ -1,0 +1,82 @@
+form {
+  font-size: larger;
+  font-family: 'Roboto', sans-serif;
+  /*font-family: 'Oswald', sans-serif;*/
+}
+h1{
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+}
+
+form fieldset {
+  margin-left: 25%;
+  margin-top: 3vh;
+  width: 50%;
+  background-color: #61dafb;
+  padding-top: 3vh;
+}
+
+.divGroup {
+  margin: 5%;
+  display: flex;
+  flex-direction: row;
+}
+
+.divLabel {
+  width: 40%;
+}
+
+.inputText {
+  margin-left: 5px;
+  margin-top: -2vh;
+  width: 60%;
+  height: 38px;
+}
+
+.inputSubmit {
+  border-radius: 5%;
+  height: 35px;
+  margin-top: 1vh;
+  margin-left: 30%;
+  width: 40%;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+  form {
+    font-size: medium;
+  }
+  .divGroup {
+    margin: 3%;
+  }
+  form fieldset {
+    margin-left: 7%;
+    margin-top: 2vh;
+    width: 80%;
+  }
+  .inputText {
+    margin-top: -1vh;
+    width: 60%;
+    height: 30px;
+  }
+  .inputSubmit {
+    height: 25px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  form {
+    font-size: smaller;
+  }
+  form fieldset {
+    margin-left: 0;
+    margin-top: 2vh;
+    width: 100%;
+    border: none;
+  }
+  .inputText {
+    margin-top: -3px;
+    width: 60%;
+  }
+}
+

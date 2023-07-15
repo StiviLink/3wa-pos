@@ -1,7 +1,7 @@
 import React from 'react'
-import { useFormContext, Controller } from 'react-hook-form';
+import { useFormContext, Controller } from 'react-hook-form'
 // @mui
-import TextField from '@mui/material/TextField';
+import TextField from '@mui/material/TextField'
 
 // ----------------------------------------------------------------------
 
@@ -20,8 +20,9 @@ export default function RHFTextField({ name, helperText, type, ...other }) {
           value={type === 'number' && field.value === 0 ? '' : field.value}
           onChange={(event) => {
             if (type === 'number') {
-              field.onChange(Number(event.target.value));
-            } else {
+              field.onChange(Number(event.target.value))
+            }
+            else {
               field.onChange(event.target.value);
             }
           }}

@@ -1,17 +1,18 @@
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 // sections
-import {ProductDetailsView} from 'src/sections/product/view'
+import LoginView from "../../sections/auth/login"
 
 // ----------------------------------------------------------------------
 
-export default function ProductDetailsPage() {
+export default function LoginPage() {
   return (
     <>
         <HelmetProvider>
             <Helmet>
-                <title> Dashboard: Product Details</title>
+                <title>Login</title>
             </Helmet>
-            <ProductDetailsView />
+
+            <LoginView />
         </HelmetProvider>
     </>
   );

@@ -27,7 +27,7 @@ export const mainRoutes = [
       {
         path: 'product',
         children: [
-          { element: <ProductListPage />, index: true },
+          { element: <HomePage />, index: true },
           { path: 'list', element: <ProductListPage /> },
           { path: ':id', element: <ProductDetailsPage /> },
           //{ path: 'checkout', element: <ProductCheckoutPage /> },

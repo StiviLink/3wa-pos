@@ -9,7 +9,7 @@ import { bgBlur } from '../../theme/css'
 import Iconify from '../../components/iconify'
 import { useSettingsContext } from '../../components/settings/context/settings-context'
 //
-import { NAV } from '../config-layout';
+import { NAV } from '../config-layout'
 
 // ----------------------------------------------------------------------
 

@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 // @mui
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Drawer from '@mui/material/Drawer';
+import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
+import Drawer from '@mui/material/Drawer'
 // hooks
 import { useResponsive } from '../../hooks/use-responsive'
 // hooks
@@ -15,24 +15,22 @@ import { NavSectionVertical } from '../../components/nav-section'
 //
 import { NAV } from '../config-layout'
 import { useNavData } from './config-navigation'
-import { NavToggleButton, NavUpgrade } from '../_common'
 
 // ----------------------------------------------------------------------
 
 export default function NavVertical({ openNav, onCloseNav }) {
-  const { user } = useMockedUser();
+  const { user } = useMockedUser()
 
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   const lgUp = useResponsive('up', 'lg');
 
-  const navData = useNavData();
+  const navData = useNavData()
 
   useEffect(() => {
     if (openNav) {
       onCloseNav();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   const renderContent = (
@@ -56,8 +54,6 @@ export default function NavVertical({ openNav, onCloseNav }) {
       />
 
       <Box sx={{ flexGrow: 1 }} />
-
-      <NavUpgrade />
     </Scrollbar>
   );
 
@@ -69,7 +65,6 @@ export default function NavVertical({ openNav, onCloseNav }) {
         width: { lg: NAV.W_VERTICAL },
       }}
     >
-      <NavToggleButton />
 
       {lgUp ? (
         <Stack
