@@ -29,19 +29,19 @@ const reducer = (state, action) => {
       user: null,
     };
   }
-  return state;
-};
+  return state
+}
 
 // ----------------------------------------------------------------------
 
 Auth.configure(AMPLIFY_API)
 
 export function AuthProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   const initialize = useCallback(async () => {
     try {
-      const currentUser = await Auth.currentAuthenticatedUser();
+      const currentUser = await Auth.currentAuthenticatedUser()
 
       if (currentUser) {
         dispatch({
@@ -54,7 +54,7 @@ export function AuthProvider({ children }) {
               role: 'admin',
             },
           },
-        });
+        })
       }
       else {
         dispatch({
@@ -64,7 +64,8 @@ export function AuthProvider({ children }) {
           },
         });
       }
-    } catch (error) {
+    }
+    catch (error) {
       console.error(error);
       dispatch({
         type: Types.INITIAL,
@@ -76,8 +77,8 @@ export function AuthProvider({ children }) {
   }, [])
 
   useEffect(() => {
-    initialize();
-  }, [initialize]);
+    initialize().then(r => console.log(r))
+  }, [initialize])
 
   // LOGIN
   const login = useCallback(async (email, password) => {
@@ -94,7 +95,7 @@ export function AuthProvider({ children }) {
         },
       },
     });
-  }, []);
+  }, [])
 
   // REGISTER
   const register = useCallback(
@@ -115,12 +116,12 @@ export function AuthProvider({ children }) {
   // CONFIRM REGISTER
   const confirmRegister = useCallback(async (email, code) => {
     await Auth.confirmSignUp(email, code);
-  }, []);
+  }, [])
 
   // RESEND CODE REGISTER
   const resendCodeRegister = useCallback(async (email) => {
     await Auth.resendSignUp(email);
-  }, []);
+  }, [])
 
   // LOGOUT
   const logout = useCallback(async () => {
@@ -128,17 +129,17 @@ export function AuthProvider({ children }) {
     dispatch({
       type: Types.LOGOUT,
     });
-  }, []);
+  }, [])
 
   // FORGOT PASSWORD
   const forgotPassword = useCallback(async (email) => {
     await Auth.forgotPassword(email);
-  }, []);
+  }, [])
 
   // NEW PASSWORD
   const newPassword = useCallback(async (email, code, password) => {
     await Auth.forgotPasswordSubmit(email, code, password);
-  }, []);
+  }, [])
 
   // ----------------------------------------------------------------------
 
@@ -174,7 +175,7 @@ export function AuthProvider({ children }) {
       confirmRegister,
       resendCodeRegister,
     ]
-  );
+  )
 
-  return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>
 }

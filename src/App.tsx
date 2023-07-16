@@ -1,6 +1,8 @@
-import React from "react";
+import React from "react"
 import './App.css'
 import ReduxProvider from './redux/redux-provider'
+import {AuthProvider} from "./auth/context-amplify/auth-provider"
+import {AuthConsumer} from "./auth/context-amplify/auth-consumer"
 import { BrowserRouter } from 'react-router-dom'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -15,32 +17,36 @@ import Router from "./routes/sections"
 const App = () => {
   return (
       <>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <SettingsProvider
-              defaultSettings={{
-                themeMode: 'light', // 'light' | 'dark'
-                themeDirection: 'ltr', //  'rtl' | 'ltr'
-                themeContrast: 'default', // 'default' | 'bold'
-                themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
-                themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
-                themeStretch: false,
-              }}
-          >
-            <ThemeProvider>
-              <MotionLazy>
-                <SnackbarProvider>
-                  <SettingsDrawer />
-                  <ProgressBar />
-                  <ReduxProvider>
-                    <BrowserRouter>
-                        <Router />
-                    </BrowserRouter>
-                  </ReduxProvider>
-                </SnackbarProvider>
-              </MotionLazy>
-            </ThemeProvider>
-          </SettingsProvider>
-        </LocalizationProvider>
+          <AuthProvider>
+              <ReduxProvider>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <SettingsProvider
+                          defaultSettings={{
+                              themeMode: 'light', // 'light' | 'dark'
+                              themeDirection: 'ltr', //  'rtl' | 'ltr'
+                              themeContrast: 'default', // 'default' | 'bold'
+                              themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
+                              themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
+                              themeStretch: false,
+                          }}
+                      >
+                          <ThemeProvider>
+                              <MotionLazy>
+                                  <SnackbarProvider>
+                                      <SettingsDrawer />
+                                      <ProgressBar />
+                                      <BrowserRouter>
+                                          <AuthConsumer>
+                                              <Router />
+                                          </AuthConsumer>
+                                      </BrowserRouter>
+                                  </SnackbarProvider>
+                              </MotionLazy>
+                          </ThemeProvider>
+                      </SettingsProvider>
+                  </LocalizationProvider>
+              </ReduxProvider>
+          </AuthProvider>
       </>
   )
 }
