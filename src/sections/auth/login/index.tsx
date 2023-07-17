@@ -1,13 +1,17 @@
 import './style.css'
 import {useAuthContext} from "../../../auth/hooks/use-auth-context"
-import {useRouter} from "../../../routes/hook"
+import {useSearchParams, useRouter} from "../../../routes/hook"
 import {useState} from "react";
 import Alert from "@mui/material/Alert"
+// config
+import { PATH_AFTER_LOGIN } from 'src/config-global'
 
 const LoginView = () => {
     const { login } = useAuthContext()
 
     const router = useRouter()
+
+    const searchParams = useSearchParams()
 
     const [errorMsg, setErrorMsg] = useState('')
 
@@ -15,9 +19,12 @@ const LoginView = () => {
 
     const [password, setPassword] = useState('')
 
+    const returnTo = searchParams.get('returnTo')
+
     const onSubmit =  () => {
         try {
-            router.push(login?.(email, password))
+            login?.(email, password)
+            router.push(returnTo || PATH_AFTER_LOGIN)
         }
         catch (error:any) {
             console.error(error)
@@ -43,12 +50,11 @@ const LoginView = () => {
                                onChange={e => setPassword(e.target.value)} required/>
                     </div>
                     <div className="divGroup">
-                        <input className="inputSubmit" type="submit" value="Valider" onClick={onSubmit}/>
+                        <input className="inputSubmit" type="button" value="Valider" onClick={onSubmit}/>
                     </div>
                 </fieldset>
             </form>
         </>
     )
 }
-
 export default LoginView

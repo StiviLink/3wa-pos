@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 // utils
-import { localStorageAvailable } from '../utils/storage-available';
+import { localStorageAvailable } from '../utils/storage-available'
 
 // ----------------------------------------------------------------------
 
@@ -34,9 +34,9 @@ export function useLocalStorage<ValueType>(key: string, defaultValue: ValueType)
         localStorage.setItem(key, JSON.stringify(result));
       }
 
-      return result;
-    });
-  };
+      return result
+    })
+  }
 
-  return [value, setValueInLocalStorage];
+  return [value, setValueInLocalStorage]
 }

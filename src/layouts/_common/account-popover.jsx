@@ -9,15 +9,14 @@ import MenuItem from '@mui/material/MenuItem'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 // routes
-import { paths } from '../../routes/paths'
-import { useRouter } from '../../routes/hook/use-router'
+import { paths } from 'src/routes/paths'
+import { useRouter } from 'src/routes/hook/use-router'
 // hooks
 import { useMockedUser } from '../../hooks/use-mocked-user'
 // auth
-//import { useAuthContext } from '../../auth/hooks/use-auth-context'
+import { useAuthContext } from '../../auth/hooks/use-auth-context'
 // components
 import { varHover } from '../../components/animate'
-//import { useSnackbar } from '../../components/snackbar';
 import CustomPopover, { usePopover } from '../../components/custom-popover'
 
 // ----------------------------------------------------------------------
@@ -44,20 +43,18 @@ export default function AccountPopover() {
 
   const { user } = useMockedUser()
 
-  //const { logout } = useAuthContext()
-
-  //const { enqueueSnackbar } = useSnackbar()
+  const { logout } = useAuthContext()
 
   const popover = usePopover()
 
   const handleLogout = async () => {
     try {
-      //await logout()
-      popover.onClose();
-      router.replace('/')
-    } catch (error) {
-      console.error(error);
-      //enqueueSnackbar('Unable to logout!', { variant: 'error' });
+      await logout()
+      popover.onClose()
+      router.reload()
+    }
+    catch (error) {
+      console.error(error)
     }
   };
 

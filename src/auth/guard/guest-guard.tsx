@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react'
 // routes
 import { paths } from '../../routes/paths'
-import { useRouter } from '../../routes/hook/use-router'
+import { useRouter } from 'src/routes/hook/use-router'
 //
 import { useAuthContext } from '../hooks/use-auth-context'
 
@@ -15,17 +15,17 @@ export default function GuestGuard({ children }: Props) {
   const router = useRouter();
 
   // @ts-ignore
-  const { authenticated } = useAuthContext();
+  const { authenticated } = useAuthContext()
 
   const check = useCallback(() => {
     if (authenticated) {
-      router.replace(paths.dashboard.root);
+      router.replace(paths.dashboard.root)
     }
-  }, [authenticated, router]);
+  }, [authenticated, router])
 
   useEffect(() => {
     check();
-  }, [check]);
+  }, [check])
 
-  return <>{children}</>;
+  return <>{children}</>
 }

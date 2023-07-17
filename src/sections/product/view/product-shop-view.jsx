@@ -1,15 +1,15 @@
-import orderBy from 'lodash/orderBy';
-import isEqual from 'lodash/isEqual';
-import { useCallback, useState } from 'react';
+import orderBy from 'lodash/orderBy'
+import isEqual from 'lodash/isEqual'
+import { useCallback, useState } from 'react'
 // @mui
-import Stack from '@mui/material/Stack';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack'
+import Container from '@mui/material/Container'
+import Typography from '@mui/material/Typography'
 // hooks
-import { useBoolean } from '../../../hooks/use-boolean';
-import { useDebounce } from '../../../hooks/use-debounce';
+import { useBoolean } from '../../../hooks/use-boolean'
+import { useDebounce } from '../../../hooks/use-debounce'
 // routes
-import { paths } from '../../../routes/paths';
+import { paths } from 'src/routes/paths'
 // _mock
 import {
   PRODUCT_SORT_OPTIONS,
@@ -17,20 +17,20 @@ import {
   PRODUCT_GENDER_OPTIONS,
   PRODUCT_RATING_OPTIONS,
   PRODUCT_CATEGORY_OPTIONS,
-} from '../../../_mock/_product';
+} from '../../../_mock/_product'
 // api
-import { getAllProducts, searchProduct } from '../../../api/product';
+import { getAllProducts, searchProduct } from '../../../api/product'
 // components
-import EmptyContent from '../../../components/empty-content';
-import { useSettingsContext } from '../../../components/settings/context/settings-context';
+import EmptyContent from '../../../components/empty-content'
+import { useSettingsContext } from '../../../components/settings/context/settings-context'
 //
-import useCheckout from '../hooks/use-checkout';
-import CartIcon from '../common/cart-icon';
-import ProductList from '../product-list';
-import ProductSort from '../product-sort';
-import ProductSearch from '../product-search';
-import ProductFilters from '../product-filters';
-import ProductFiltersResult from '../product-filters-result';
+import useCheckout from '../hooks/use-checkout'
+import CartIcon from '../common/cart-icon'
+import ProductList from '../product-list'
+import ProductSort from '../product-sort'
+import ProductSearch from '../product-search'
+import ProductFilters from '../product-filters'
+import ProductFiltersResult from '../product-filters-result'
 
 // ----------------------------------------------------------------------
 
@@ -55,9 +55,9 @@ export default function ProductShopView() {
 
   const [searchQuery, setSearchQuery] = useState('');
 
-  const debouncedQuery = useDebounce(searchQuery);
+  const debouncedQuery = useDebounce(searchQuery)
 
-  const [filters, setFilters] = useState(defaultFilters);
+  const [filters, setFilters] = useState(defaultFilters)
 
   const { products, productsLoading, productsEmpty } = {
     products: getAllProducts,
@@ -80,21 +80,21 @@ export default function ProductShopView() {
     sortBy,
   });
 
-  const canReset = !isEqual(defaultFilters, filters);
+  const canReset = !isEqual(defaultFilters, filters)
 
-  const notFound = !dataFiltered.length && canReset;
+  const notFound = !dataFiltered.length && canReset
 
   const handleSortBy = useCallback((newValue) => {
     setSortBy(newValue);
-  }, []);
+  }, [])
 
   const handleSearch = useCallback((inputValue) => {
     setSearchQuery(inputValue);
-  }, []);
+  }, [])
 
   const handleResetFilters = useCallback(() => {
     setFilters(defaultFilters);
-  }, []);
+  }, [])
 
   const renderFilters = (
     <Stack
@@ -105,7 +105,7 @@ export default function ProductShopView() {
     >
       <ProductSearch
         query={debouncedQuery}
-        results={searchResults}
+        results={searchResults??[]}
         onSearch={handleSearch}
         loading={searchLoading}
         hrefItem={(id) => paths.product.details(id)}

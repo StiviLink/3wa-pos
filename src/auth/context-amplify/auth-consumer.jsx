@@ -1,5 +1,5 @@
 // components
-import SplashScreen from '../../components/loading-screen/splash-screen'
+import SplashScreen from 'src/components/loading-screen/splash-screen'
 //
 import { AuthContext } from './auth-context'
 

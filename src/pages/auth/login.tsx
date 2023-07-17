@@ -5,6 +5,7 @@ import LoginView from "../../sections/auth/login"
 // ----------------------------------------------------------------------
 
 export default function LoginPage() {
+    console.log('In Login')
   return (
     <>
         <HelmetProvider>

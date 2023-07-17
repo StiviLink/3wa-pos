@@ -25,6 +25,7 @@ export const paths = {
   },
   // AUTH
   auth: {
+    login: `${ROOTS.AUTH}/login`,
     amplify: {
       login: `${ROOTS.AUTH}/amplify/login`,
       verify: `${ROOTS.AUTH}/amplify/verify`,
@@ -107,7 +108,7 @@ export const paths = {
     sales: {
       root: `${ROOTS.DASHBOARD}/sales`,
       new: `${ROOTS.DASHBOARD}/sales/new`,
-      login: `${ROOTS.DASHBOARD}/sales/login`,
+      point: `${ROOTS.DASHBOARD}/sales/point`,
       details: (id: string) => `${ROOTS.DASHBOARD}/sales/${id}`,
       demo: {
         details: `${ROOTS.DASHBOARD}/sales/${MOCK_ID}`,

@@ -1,5 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
+//auth
+import {AuthGuard} from "../../auth/guard"
 // layouts
 import DashboardLayout from 'src/layouts/dashboard'
 // components
@@ -26,11 +28,13 @@ export const dashboardRoutes = [
   {
     path: 'dashboard',
     element: (
-        <DashboardLayout>
-          <Suspense fallback={<LoadingScreen />}>
-            <Outlet />
-          </Suspense>
-        </DashboardLayout>
+        <AuthGuard>
+          <DashboardLayout>
+            <Suspense fallback={<LoadingScreen />}>
+              <Outlet />
+            </Suspense>
+          </DashboardLayout>
+        </AuthGuard>
     ),
     children: [
       { element: <ProductShopPage />, index: true },
@@ -38,7 +42,7 @@ export const dashboardRoutes = [
         path: 'sales',
         children: [
           { element: <LoginPage />, index: true },
-          { path: 'login', element: <LoginPage /> }
+          { path: 'point', element: <LoginPage /> }
         ],
       },
       {

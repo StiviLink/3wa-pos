@@ -15,11 +15,11 @@ import { useBoolean } from '../../../hooks/use-boolean'
 import { useResponsive } from '../../../hooks/use-responsive'
 import { useEventListener } from '../../../hooks/use-event-listener'
 // components
-import Label from '../../../components/label';
-import Iconify from '../../../components/iconify';
-import Scrollbar from '../../../components/scrollbar';
-import { useRouter } from '../../../routes/hook/use-router';
-import SearchNotFound from '../../../components/search-not-found';
+import Label from 'src/components/label'
+import Iconify from 'src/components/iconify'
+import Scrollbar from 'src/components/scrollbar'
+import { useRouter } from 'src/routes/hook/use-router'
+import SearchNotFound from 'src/components/search-not-found'
 //
 import ResultItem from './result-item';
 import { useNavData } from '../../dashboard/config-navigation';

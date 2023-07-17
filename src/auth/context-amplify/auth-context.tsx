@@ -1,12 +1,15 @@
 import { createContext } from 'react'
-// config
-import { PATH_AFTER_LOGIN } from 'src/config-global'
+import {UserProps} from "../../api/auth/types"
 
 // ----------------------------------------------------------------------
 
-const context = {
-    login: (email:String, password:String) => email === 'demo@minimals.cc' && password === 'demo1234' ?
-        PATH_AFTER_LOGIN : ''
+type ContextProps = {
+    currentUser ?: UserProps
+    login : any
+    authenticated : boolean
+    method : string
 }
+
+const context = {} as ContextProps
 
 export const AuthContext = createContext(context)
