@@ -8,8 +8,8 @@ import DashboardLayout from 'src/layouts/dashboard'
 import { LoadingScreen } from 'src/components/loading-screen'
 
 // ----------------------------------------------------------------------
-//LOGIN
-const LoginPage = lazy(() => import('src/pages/auth/login'))
+//SALES
+const SalesPointPage = lazy(() => import('src/pages/dashboard/sales/point'))
 // PRODUCT
 const ProductDetailsPage = lazy(() => import('src/pages/dashboard/product/details'))
 const ProductListPage = lazy(() => import('src/pages/dashboard/product/list'))
@@ -41,8 +41,8 @@ export const dashboardRoutes = [
       {
         path: 'sales',
         children: [
-          { element: <LoginPage />, index: true },
-          { path: 'point', element: <LoginPage /> }
+          { element: <SalesPointPage />, index: true },
+          { path: 'point', element: <SalesPointPage /> }
         ],
       },
       {

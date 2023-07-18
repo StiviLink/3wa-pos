@@ -1,6 +1,6 @@
 // @mui
-import Box, { BoxProps } from '@mui/material/Box';
-import Pagination, { paginationClasses } from '@mui/material/Pagination';
+import Box from '@mui/material/Box'
+import Pagination, { paginationClasses } from '@mui/material/Pagination'
 //
 import ProductItem from './product-item';
 import { ProductItemSkeleton } from './product-skeleton';

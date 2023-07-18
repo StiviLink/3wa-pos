@@ -19,10 +19,10 @@ import {
   PRODUCT_CATEGORY_OPTIONS,
 } from '../../../_mock/_product'
 // api
-import { getAllProducts, searchProduct } from '../../../api/product'
+import { getAllProducts, searchProduct } from 'src/api/product'
 // components
-import EmptyContent from '../../../components/empty-content'
-import { useSettingsContext } from '../../../components/settings/context/settings-context'
+import EmptyContent from 'src/components/empty-content'
+import { useSettingsContext } from 'src/components/settings/context/settings-context'
 //
 import useCheckout from '../hooks/use-checkout'
 import CartIcon from '../common/cart-icon'
@@ -45,15 +45,15 @@ const defaultFilters = {
 // ----------------------------------------------------------------------
 
 export default function ProductShopView() {
-  const settings = useSettingsContext();
+  const settings = useSettingsContext()
 
-  const { checkout } = useCheckout();
+  const { checkout } = useCheckout()
 
-  const openFilters = useBoolean();
+  const openFilters = useBoolean()
 
-  const [sortBy, setSortBy] = useState('featured');
+  const [sortBy, setSortBy] = useState('featured')
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('')
 
   const debouncedQuery = useDebounce(searchQuery)
 

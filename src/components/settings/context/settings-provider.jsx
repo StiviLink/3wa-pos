@@ -1,15 +1,15 @@
 import isEqual from 'lodash/isEqual';
-import { useEffect, useMemo, useCallback, useState } from 'react';
+import { useEffect, useMemo, useCallback, useState } from 'react'
 // hooks
-import { useLocalStorage } from '../../../hooks/use-local-storage';
+import { useLocalStorage } from '../../../hooks/use-local-storage'
 // utils
-import { localStorageGetItem } from '../../../utils/storage-available';
-import { SettingsContext } from './settings-context';
+import { localStorageGetItem } from '../../../utils/storage-available'
+import { SettingsContext } from './settings-context'
 
 export default function SettingsProvider({ children, defaultSettings }) {
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false)
 
-  const [settings, setSettings] = useLocalStorage('settings', defaultSettings);
+  const [settings, setSettings] = useLocalStorage('settings', defaultSettings)
 
   const isArabic = localStorageGetItem('i18nextLng') === 'ar';
 
@@ -66,7 +66,7 @@ export default function SettingsProvider({ children, defaultSettings }) {
       // Drawer
       open: openDrawer,
       onToggle: onToggleDrawer,
-      onClose: onCloseDrawer,
+      onClose: onCloseDrawer
     }),
     [
       onReset,
@@ -78,7 +78,7 @@ export default function SettingsProvider({ children, defaultSettings }) {
       onToggleDrawer,
       onChangeDirectionByLang,
     ]
-  );
+  )
 
-  return <SettingsContext.Provider value={memoizedValue}>{children}</SettingsContext.Provider>;
+  return <SettingsContext.Provider value={memoizedValue}>{children}</SettingsContext.Provider>
 }
