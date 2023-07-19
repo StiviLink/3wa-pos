@@ -1,21 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 
 // ----------------------------------------------------------------------
 
-type ReturnType = string;
+type ReturnType = string
 
 export function useDebounce(value: string, delay = 500): ReturnType {
-  const [debouncedValue, setDebouncedValue] = useState(value);
+  const [debouncedValue, setDebouncedValue] = useState(value)
 
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedValue(value);
-    }, delay);
+    }, delay)
 
     return () => {
       clearTimeout(handler);
-    };
-  }, [value, delay]);
+    }
+  }, [value, delay])
 
-  return debouncedValue;
+  return debouncedValue
 }

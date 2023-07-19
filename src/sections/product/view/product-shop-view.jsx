@@ -6,8 +6,8 @@ import Stack from '@mui/material/Stack'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 // hooks
-import { useBoolean } from '../../../hooks/use-boolean'
-import { useDebounce } from '../../../hooks/use-debounce'
+import { useBoolean } from 'src/hooks/use-boolean'
+import { useDebounce } from 'src/hooks/use-debounce'
 // routes
 import { paths } from 'src/routes/paths'
 // _mock
@@ -65,20 +65,20 @@ export default function ProductShopView() {
     productsEmpty: false
   }
 
-  const { searchResults, searchLoading } = searchProduct(debouncedQuery);
+  const { searchResults, searchLoading } = searchProduct(debouncedQuery)
 
   const handleFilters = useCallback((name, value) => {
     setFilters((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-  }, []);
+  }, [])
 
   const dataFiltered = applyFilter({
     inputData: products,
     filters,
     sortBy,
-  });
+  })
 
   const canReset = !isEqual(defaultFilters, filters)
 
@@ -89,7 +89,7 @@ export default function ProductShopView() {
   }, [])
 
   const handleSearch = useCallback((inputValue) => {
-    setSearchQuery(inputValue);
+    setSearchQuery(inputValue)
   }, [])
 
   const handleResetFilters = useCallback(() => {
