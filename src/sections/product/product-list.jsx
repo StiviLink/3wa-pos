@@ -8,9 +8,10 @@ import {useState} from "react";
 
 // ----------------------------------------------------------------------
 
-export default function ProductList({ products, loading, ...other }) {
+export default function ProductList({ products, loading, maxi, ...other }) {
+    if(!maxi) maxi = 8
     const [min, setMin] = useState(0)
-    const [max, setMax] = useState(7)
+    const [max, setMax] = useState(maxi-1)
     const [page, setPage] = useState(1)
   const renderSkeleton = (
     <>
@@ -23,8 +24,8 @@ export default function ProductList({ products, loading, ...other }) {
     const handleChange = (e, value) => {
         if(value!==page){
             const ecart = value>page ? value-page : page-value
-            setMin(value>page ? min+(ecart*7) : min-(ecart*7))
-            setMax(value>page ? max+(ecart*7) : max-(ecart*7))
+            setMin(value>page ? min+(ecart*(maxi-1)) : min-(ecart*(maxi-1)))
+            setMax(value>page ? max+(ecart*(maxi-1)) : max-(ecart*(maxi-1)))
             setPage(value)
         }
     }
@@ -36,8 +37,8 @@ export default function ProductList({ products, loading, ...other }) {
       ))}
     </>
   )
-    const nbInt = parseInt((products.length/8).toString()),
-        nbProd = products.length/8 > nbInt ? nbInt + 1 : nbInt
+    const nbInt = parseInt((products.length/maxi).toString()),
+        nbProd = products.length/maxi > nbInt ? nbInt + 1 : nbInt
 
   return (
     <>
@@ -55,7 +56,7 @@ export default function ProductList({ products, loading, ...other }) {
         {loading ? renderSkeleton : renderList}
       </Box>
 
-      {products.length > 8 && (
+      {products.length > maxi && (
         <Pagination
           count={nbProd}
           onChange={handleChange}

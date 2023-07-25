@@ -37,7 +37,7 @@ export default function SalesPointProduct(){
                 loading={searchLoading}
                 hrefItem={(id) => paths.product.details(id)}
             />
-            <ProductList products={getAllProducts} />
+            <ProductList products={getAllProducts} maxi={8} />
         </Container>
     )
 }

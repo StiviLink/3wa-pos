@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
+import { useCallback } from 'react'
 // redux
-import { useDispatch, useSelector } from '../../../redux/store';
+import { useDispatch, useSelector } from 'src/redux/store'
 import {
   gotoStep,
   nextStep,
@@ -15,29 +15,29 @@ import {
   decreaseQuantity,
 } from '../../../redux/slice/checkout'
 // _mock
-import { PRODUCT_CHECKOUT_STEPS } from '../../../_mock/_product';
+import { PRODUCT_CHECKOUT_STEPS } from '../../../_mock/_product'
 // routes
-import { paths } from '../../../routes/paths';
-import { useRouter } from '../../../routes/hook/use-router';
+import { paths } from '../../../routes/paths'
+import { useRouter } from 'src/routes/hook/use-router'
 
 // ----------------------------------------------------------------------
 
 export default function useCheckout() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const router = useRouter();
+  const router = useRouter()
 
-  const checkout = useSelector((state) => state.checkout);
+  const checkout = useSelector((state) => state.checkout)
 
-  const completed = checkout.activeStep === PRODUCT_CHECKOUT_STEPS.length;
+  const completed = checkout.activeStep === PRODUCT_CHECKOUT_STEPS.length
 
   const onNextStep = useCallback(() => {
     dispatch(nextStep());
-  }, [dispatch]);
+  }, [dispatch])
 
   const onBackStep = useCallback(() => {
     dispatch(backStep());
-  }, [dispatch]);
+  }, [dispatch])
 
   const onGotoStep = useCallback(
     (step) => {
@@ -107,7 +107,8 @@ export default function useCheckout() {
       dispatch(resetCart());
       router.replace(paths.product.root);
     }
-  }, [completed, dispatch, router]);
+    dispatch(resetCart())
+  }, [completed, dispatch, router])
 
   return {
     checkout,

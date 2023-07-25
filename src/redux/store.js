@@ -1,7 +1,7 @@
-import {configureStore} from '@reduxjs/toolkit';
-import {Provider, useDispatch as useAppDispatch, useSelector as useAppSelector,} from 'react-redux';
-import {FLUSH, PAUSE, PERSIST, persistStore, PURGE, REGISTER, REHYDRATE} from 'redux-persist';
-import {rootReducer} from './root-reducer';
+import {configureStore} from '@reduxjs/toolkit'
+import {Provider, useDispatch as useAppDispatch, useSelector as useAppSelector,} from 'react-redux'
+import {FLUSH, PAUSE, PERSIST, persistStore, PURGE, REGISTER, REHYDRATE} from 'redux-persist'
+import {rootReducer} from './root-reducer'
 
 // ----------------------------------------------------------------------
 

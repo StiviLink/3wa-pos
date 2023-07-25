@@ -14,7 +14,7 @@ const initialState = {
   shipping: 0,
   billing: null,
   totalItems: 0,
-};
+}
 
 const slice = createSlice({
   name: 'checkout',
@@ -38,11 +38,18 @@ const slice = createSlice({
 
     addToCart(state, action) {
       const newProduct = action.payload
+      const newLine = {
+        id: newProduct.id,
+        name: newProduct.name,
+        price: newProduct.price,
+        stock: newProduct.available,
+        quantity: 1,
+        selected: true,
+        priceTotal: `${newProduct.price}`
+      }
 
-      const cartEmpty = !state.cart.length
-
-      if (cartEmpty)
-        state.cart = [...state.cart, newProduct]
+      if (!state.cart.length)
+        state.cart = [newLine]
       else {
         state.cart = state.cart.map((product) => {
           const existProduct = product.id === newProduct.id
@@ -50,16 +57,15 @@ const slice = createSlice({
           if (existProduct) {
             return {
               ...product,
-              colors: uniq([...product.colors, ...newProduct.colors]),
-              quantity: product.quantity + 1,
+              selected: true,
             }
           }
 
-          return product
+          return {...product, selected: false}
         })
       }
 
-      state.cart = uniqBy([...state.cart, newProduct], 'id')
+      state.cart = uniqBy([...state.cart, newLine], 'id')
       state.totalItems = sum(state.cart.map((product) => product.quantity))
     },
 

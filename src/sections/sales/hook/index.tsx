@@ -6,6 +6,7 @@ import {getAllProducts} from "../../../api/product"
 import Iconify from "../../../components/iconify"
 
 type LineProp = {
+    id: string
     name: string
     price: number
     stock: number
@@ -66,7 +67,7 @@ export const onChangeHook = (props:OnChangeProps) => {
             , total = (totalOfLinesRegistered + parseFloat(priceTotal)).toFixed(2).replace('.',',')
         if(!lineSelected){
             if(quantity<=product.quantity)
-                lines.push({name: product.name, price, stock, quantity, selected: true, priceTotal})
+                lines.push({id: product.id, name: product.name, price, stock, quantity, selected: true, priceTotal})
             setState({ input, lines, total })
         }
         else {

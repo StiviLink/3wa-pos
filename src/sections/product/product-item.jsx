@@ -10,8 +10,8 @@ import RouterLink from '../../routes/components/router-link'
 // utils
 import { fCurrency } from '../../utils/format-number'
 // redux
-import { useDispatch } from '../../redux/store';
-import { addToCart } from '../../redux/slice/checkout';
+import { useDispatch } from '../../redux/store'
+import { addToCart } from '../../redux/slice/checkout'
 // components
 import Label from '../../components/label';
 import Image from '../../components/image';
@@ -40,11 +40,11 @@ export default function ProductItem({ product }) {
       quantity: 1,
     }
     try {
-      dispatch(addToCart(newProduct));
+      dispatch(addToCart(newProduct))
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
   const renderLabels = (newLabel.enabled || saleLabel.enabled) && (
     <Stack

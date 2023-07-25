@@ -2,15 +2,23 @@
 import React, {ChangeEvent, useEffect, useState} from "react"
 //keyboard
 import {KeyboardReactInterface, KeyboardWrapper} from "./keyboard-wrapper"
-//api
-import {getAllProducts} from "../../api/product"
 //hook
 import {StateProps, onChangeHook, emptySale, SalesLine, SalesSummary} from "./hook"
+//redux
+import {resetCart} from "../../redux/slice/checkout"
+import {useSelector, useDispatch} from "../../redux/store"
 
 export default function SalesPointKeyboard(){
     let keyboard : KeyboardReactInterface
-    useEffect(() => console.log('products', getAllProducts), [])
-    const [state, setState] = useState({input: "", lines: [], total: "0"} as StateProps)
+    const checkout = useSelector((state:any) => state.checkout), cart = checkout.cart, dispatch = useDispatch()
+    useEffect(() => checkout.onResetAll, [])
+    useEffect(() => {
+        dispatch(resetCart())
+    }, [])
+
+    useEffect(() => console.log('cart', cart), [cart])
+    useEffect(() => setState(state => {return {...state, lines: cart}}), [cart])
+    const [state, setState] = useState({input: "", lines: cart, total: "0"} as StateProps)
 
     const onChange = (input: string) => {
         console.log("Input string", input)
