@@ -1,5 +1,4 @@
 import sum from 'lodash/sum'
-import uniq from 'lodash/uniq'
 import uniqBy from 'lodash/uniqBy'
 import {createSlice} from '@reduxjs/toolkit'
 
@@ -43,7 +42,7 @@ const slice = createSlice({
         name: newProduct.name,
         price: newProduct.price,
         stock: newProduct.available,
-        quantity: 1,
+        quantity: 0,
         selected: true,
         priceTotal: `${newProduct.price}`
       }
@@ -67,6 +66,7 @@ const slice = createSlice({
 
       state.cart = uniqBy([...state.cart, newLine], 'id')
       state.totalItems = sum(state.cart.map((product) => product.quantity))
+      state.subTotal = sum(state.cart.map((product) => parseFloat(product.priceTotal)))
     },
 
     deleteCart(state, action) {
@@ -94,6 +94,22 @@ const slice = createSlice({
 
     gotoStep(state, action) {
       state.activeStep = action.payload
+    },
+
+    updateQuantity(state, action) {
+      const quantity = action.payload
+      state.cart = state.cart.map((product) => {
+        if (product.selected) {
+          const priceTotal = `${(quantity*product.price).toFixed(2)}`
+          return {
+            ...product,
+            quantity,
+            priceTotal
+          }
+        }
+        return product
+      })
+      state.subTotal = sum(state.cart.map((product) => parseFloat(product.priceTotal)))
     },
 
     increaseQuantity(state, action) {
@@ -159,6 +175,7 @@ export const {
   createBilling,
   applyShipping,
   applyDiscount,
+  updateQuantity,
   increaseQuantity,
   decreaseQuantity,
 } = slice.actions

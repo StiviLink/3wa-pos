@@ -10,19 +10,22 @@ import {useSelector, useDispatch} from "../../redux/store"
 
 export default function SalesPointKeyboard(){
     let keyboard : KeyboardReactInterface
-    const checkout = useSelector((state:any) => state.checkout), cart = checkout.cart, dispatch = useDispatch()
-    useEffect(() => checkout.onResetAll, [])
+    const checkout = useSelector((state:any) => state.checkout), cart = checkout.cart, dispatch = useDispatch(),
+        subTotal = checkout.subTotal, select = cart.find((x:any) => x.selected), input = `${select?select.quantity??"":""}`
     useEffect(() => {
         dispatch(resetCart())
     }, [])
 
     useEffect(() => console.log('cart', cart), [cart])
-    useEffect(() => setState(state => {return {...state, lines: cart}}), [cart])
-    const [state, setState] = useState({input: "", lines: cart, total: "0"} as StateProps)
+    useEffect(() => console.log('subTotal', subTotal), [subTotal])
+    useEffect(() => setState(state => {return {...state, input, lines: cart,
+        total: subTotal.toFixed(2)}}), [cart, subTotal])
+    const [state, setState] = useState({input, lines: cart,
+        total: `${subTotal.toFixed(2)}`} as StateProps)
 
     const onChange = (input: string) => {
         console.log("Input string", input)
-        onChangeHook({input, state, setState})
+        onChangeHook({input, state, setState, dispatch})
         console.log("Input changed", input)
     }
 
@@ -40,7 +43,7 @@ export default function SalesPointKeyboard(){
             >
                 {(state.lines[0] && (
                     <div className="sales-order">
-                        <SalesLine state={state} setState={setState}/>
+                        <SalesLine state={state} setState={setState} dispatch={dispatch}/>
                         <SalesSummary state={state}/>
                     </div>
                 )) || emptySale}

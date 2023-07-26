@@ -4,6 +4,10 @@ import React from "react"
 import {getAllProducts} from "../../../api/product"
 //components
 import Iconify from "../../../components/iconify"
+//redux
+import {AnyAction} from "redux"
+//checkout
+import {updateQuantity, addToCart} from "../../../redux/slice/checkout"
 
 type LineProp = {
     id: string
@@ -27,16 +31,23 @@ interface Props {
 }
 interface OnChangeProps extends Props{
     input: string
+    dispatch: React.Dispatch<AnyAction>
 }
 export const onChangeHook = (props:OnChangeProps) => {
-    const {state, setState} = props
-    let input = props.input
+    const {state, setState, dispatch} = props
+    let input = props.input, nbr = 0
     const stateInput = state.input, eltInput = input.substring(input.length-1)
         , lines = state.lines
         , product = getAllProducts[lines.length]
         , lineSelected = lines.find(x => x.selected)
         , totalOfLinesRegistered = lines.filter(x => !x.selected).reduce(
         (prev, curr) => prev+parseFloat(curr.priceTotal), 0)
+    if(lines.length!==nbr && lineSelected){
+        nbr = lines.length
+        const total = (totalOfLinesRegistered + parseFloat(lineSelected.priceTotal)).toFixed(2).replace('.',',')
+        setState({ input, lines, total })
+    }
+    console.log('nbr', nbr)
     if(input.endsWith('Paiement')){
 
     }
@@ -63,18 +74,17 @@ export const onChangeHook = (props:OnChangeProps) => {
         input = eltInput==='<' ? stateInput.substring(0, stateInput.length-1) : stateInput+eltInput
         const quantity = input ? parseInt(input) : 0
             , priceTotal = (product.price*quantity).toFixed(2)
-            , price = product.price, stock = product.quantity
+            , stock = product.quantity
             , total = (totalOfLinesRegistered + parseFloat(priceTotal)).toFixed(2).replace('.',',')
-        if(!lineSelected){
-            if(quantity<=product.quantity)
-                lines.push({id: product.id, name: product.name, price, stock, quantity, selected: true, priceTotal})
-            setState({ input, lines, total })
-        }
-        else {
+        if(lineSelected){
+            console.log('lines', lines)
+            console.log('lineSelected', lineSelected)
             if(quantity <= stock){
-                lineSelected.quantity = quantity
-                lineSelected.priceTotal = priceTotal
+                dispatch(updateQuantity(quantity))
                 setState({ input, lines, total })
+            }
+            else {
+                alert(`Quantité en stock : ${stock}`)
             }
         }
     }
@@ -85,28 +95,27 @@ export const emptySale = <div className="sales-empty">
 </div>
 
 interface changeSelectedProps extends Props{
-    i: number
+    line: LineProp
+    dispatch: React.Dispatch<AnyAction>
 }
 const changeSelectedLine = (props:changeSelectedProps) => {
-    const {i, state, setState} = props
-    const {lines, total} = state,
-        lineSelected = lines.find((x,n) => n===i)
-    if(lineSelected){
-        const input = lineSelected.quantity.toString()
-        lines.map(x => x.selected = false)
-        lineSelected.selected = true
-        setState({ input, lines, total })
-    }
+    const {line, dispatch, state, setState} = props
+    const {lines, total} = state
+    dispatch(addToCart(line))
+    setState({ input: `${line.quantity}`, lines, total })
 }
-export const SalesLine = (props:Props) => {
-    const {state, setState} = props
+interface SalesLineProps extends Props{
+    dispatch: React.Dispatch<AnyAction>
+}
+export const SalesLine = (props:SalesLineProps) => {
+    const {state, setState, dispatch} = props
     const {lines} = state
     return (
         <ul className="sales-line">
             {lines?.map((line:LineProp, i:number) => {
                 return(
                     <li className={`sales-li${line.selected ? " selected" : ""}`} key={i}
-                        onClick={() => changeSelectedLine({i, state, setState})}>
+                        onClick={() => changeSelectedLine({line, dispatch, state, setState})}>
                             <span className="li-product-name">
                                 {line.name}
                                 <span></span>
@@ -132,7 +141,7 @@ export const SalesSummary = ({state}:{state:StateProps}) => {
             <div>
                 <div>
                     <span>Total : </span>
-                    <span> {total} €</span>
+                    <span> {total.replace('.',',')} €</span>
                 </div>
             </div>
         </div>
