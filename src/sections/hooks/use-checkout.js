@@ -13,11 +13,11 @@ import {
   applyShipping,
   increaseQuantity,
   decreaseQuantity,
-} from '../../../redux/slice/checkout'
+} from '../../redux/slice/checkout'
 // _mock
-import { PRODUCT_CHECKOUT_STEPS } from '../../../_mock/_product'
+import { PRODUCT_CHECKOUT_STEPS } from '../../_mock/_product'
 // routes
-import { paths } from '../../../routes/paths'
+import { paths } from '../../routes/paths'
 import { useRouter } from 'src/routes/hook/use-router'
 
 // ----------------------------------------------------------------------

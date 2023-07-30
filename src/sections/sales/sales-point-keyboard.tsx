@@ -3,7 +3,7 @@ import React, {ChangeEvent, useEffect, useState} from "react"
 //keyboard
 import {KeyboardReactInterface, KeyboardWrapper} from "./keyboard-wrapper"
 //hook
-import {StateProps, onChangeHook, emptySale, SalesLine, SalesSummary} from "./hook"
+import {StateProps, onChangeHook, emptySale, SalesLine, SalesSummary, PaiementModal} from "./hook"
 //redux
 import {resetCart} from "../../redux/slice/checkout"
 import {useSelector, useDispatch} from "../../redux/store"
@@ -16,12 +16,12 @@ export default function SalesPointKeyboard(){
         dispatch(resetCart())
     }, [])
 
+    const [state, setState] = useState({input, lines: cart,
+        total: `${subTotal ? subTotal.toFixed(2) : 0}`} as StateProps)
     useEffect(() => console.log('cart', cart), [cart])
     useEffect(() => console.log('subTotal', subTotal), [subTotal])
     useEffect(() => setState(state => {return {...state, input, lines: cart,
-        total: subTotal.toFixed(2)}}), [cart, subTotal])
-    const [state, setState] = useState({input, lines: cart,
-        total: `${subTotal.toFixed(2)}`} as StateProps)
+        total: subTotal ? subTotal.toFixed(2):0}}), [cart, input, subTotal])
 
     const onChange = (input: string) => {
         console.log("Input string", input)
@@ -37,6 +37,7 @@ export default function SalesPointKeyboard(){
 
     return (
         <div className="sales-keyboard">
+            <PaiementModal state={state} setState={setState}/>
             <div
                 className="sales-input"
                 onChange={onChangeInput}

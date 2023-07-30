@@ -1,13 +1,14 @@
 //react
-import React from "react"
+import React, {useState} from "react"
 //api
 import {getAllProducts} from "../../../api/product"
 //components
 import Iconify from "../../../components/iconify"
+import BasicModal from "../../../components/modal"
 //redux
 import {AnyAction} from "redux"
 //checkout
-import {updateQuantity, addToCart} from "../../../redux/slice/checkout"
+import {updateQuantity, addToCart, validateProduct} from "../../../redux/slice/checkout"
 
 type LineProp = {
     id: string
@@ -23,6 +24,7 @@ export type StateProps = {
     input: string
     lines: LineProp[]
     total: string
+    open?: boolean
 }
 
 interface Props {
@@ -48,37 +50,24 @@ export const onChangeHook = (props:OnChangeProps) => {
         setState({ input, lines, total })
     }
     console.log('nbr', nbr)
+    console.log('input', input)
     if(input.endsWith('Paiement')){
-
+        if(lines.filter(x => x.quantity > 0)[0]) setState({...state, open: true})
     }
     else if(input.endsWith('valider')){
-        if(lineSelected){
-            const indexSelected = lines.indexOf(lineSelected)
-            console.log('indexSelected', indexSelected)
-            if(lineSelected.quantity>0){
-                lineSelected.selected = false
-                input = ""
-                const total = (parseFloat(lineSelected.priceTotal)+totalOfLinesRegistered).toFixed(2)
-                    .replace('.',',')
-                setState({ input, lines, total })
-            }
-            else {
-                lines.splice(indexSelected, 1)
-                input = ""
-                const total = totalOfLinesRegistered.toFixed(2).replace('.',',')
-                setState({ input, lines, total })
-            }
-        }
+        dispatch(validateProduct())
     }
     else {
-        input = eltInput==='<' ? stateInput.substring(0, stateInput.length-1) : stateInput+eltInput
+        input = eltInput==='<' ? stateInput.substring(0, stateInput.length-1) : parseInt(stateInput) ?
+            stateInput+eltInput : eltInput
         const quantity = input ? parseInt(input) : 0
             , priceTotal = (product.price*quantity).toFixed(2)
             , stock = product.quantity
             , total = (totalOfLinesRegistered + parseFloat(priceTotal)).toFixed(2).replace('.',',')
         if(lineSelected){
-            console.log('lines', lines)
-            console.log('lineSelected', lineSelected)
+            //console.log('lines', lines)
+            //console.log('lineSelected', lineSelected)
+            console.log('quantity', quantity)
             if(quantity <= stock){
                 dispatch(updateQuantity(quantity))
                 setState({ input, lines, total })
@@ -105,27 +94,29 @@ const changeSelectedLine = (props:changeSelectedProps) => {
     setState({ input: `${line.quantity}`, lines, total })
 }
 interface SalesLineProps extends Props{
-    dispatch: React.Dispatch<AnyAction>
+    dispatch?: React.Dispatch<AnyAction>
+    liStyle?: any
 }
 export const SalesLine = (props:SalesLineProps) => {
-    const {state, setState, dispatch} = props
+    const {state, setState, dispatch, liStyle} = props
     const {lines} = state
     return (
         <ul className="sales-line">
             {lines?.map((line:LineProp, i:number) => {
                 return(
-                    <li className={`sales-li${line.selected ? " selected" : ""}`} key={i}
-                        onClick={() => changeSelectedLine({line, dispatch, state, setState})}>
+                    <li className={`sales-li${line.selected && dispatch ? " selected" : ""}`} key={i} style={liStyle}
+                        onClick={() => dispatch ?
+                            changeSelectedLine({line, dispatch, state, setState}) : undefined}>
                             <span className="li-product-name">
                                 {line.name}
                                 <span></span>
                             </span>
-                        <span className="li-price">{line.priceTotal.replace('.',',')} €</span>
+                        <span className="li-price">{line.priceTotal?.replace('.',',')} €</span>
                         <ul className="li-info-list" key={i}>
                             <li key={i}>
                                 <em>{line.quantity}</em>
                                 <span> </span>
-                                unités à {line.price.toString().replace('.',',')} € / unité
+                                unité(s) à {line.price?.toString().replace('.',',')} € / unité
                             </li>
                         </ul>
                     </li>
@@ -141,9 +132,54 @@ export const SalesSummary = ({state}:{state:StateProps}) => {
             <div>
                 <div>
                     <span>Total : </span>
-                    <span> {total.replace('.',',')} €</span>
+                    <span> {total && total.replace('.',',')} €</span>
                 </div>
             </div>
         </div>
+    )
+}
+export const PaymentLine = () => {
+    return (
+        <ul className="payment-line">
+            <li className={`sales-li`}>
+                <span className="li-payment-name">
+                    <Iconify icon="mdi:cash" sx={{verticalAlign: 'middle'}} />
+                    CASH
+                    <span></span>
+                </span>
+            </li>
+        </ul>
+    )
+}
+export const PaiementModal = (props:Props) => {
+    const {state, setState} = props
+    const [iconStyle, setIconStyle] = useState(
+        {cursor: 'pointer', color: ''})
+    return (
+        <BasicModal open={state.open}>
+            <>
+                <div className="icon-cross">
+                    <Iconify icon="gridicons:cross" width={30} sx={iconStyle}
+                             onClick={() => setState({...state, open: false})}
+                             onMouseEnter = {() => setIconStyle({...iconStyle, color: 'red'})}
+                             onMouseLeave = {() => setIconStyle({...iconStyle, color: ''})}
+                    />
+                </div>
+                <div className="main-paiement-modal">
+                    <div className="mpm mode-paiement">
+                        <h3>MODES DE PAIEMENT</h3>
+                        <PaymentLine />
+                    </div>
+                    <div className="mpm recap-commande">
+                        <h3>RECAPITULATIF DE LA COMMANDE</h3>
+                        <SalesLine state={state} setState={setState} liStyle={{cursor:'text'}}/>
+                        <SalesSummary state={state} />
+                    </div>
+                </div>
+                <div className="bottom-paiement">
+                    <input type='button' value='Valider'/>
+                </div>
+            </>
+        </BasicModal>
     )
 }

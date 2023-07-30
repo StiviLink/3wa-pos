@@ -20,7 +20,7 @@ import Iconify from '../../../components/iconify';
 import EmptyContent from '../../../components/empty-content';
 import { useSettingsContext } from '../../../components/settings/context/settings-context';
 //
-import useCheckout from '../hooks/use-checkout';
+import useCheckout from '../../hooks/use-checkout';
 import { ProductDetailsSkeleton } from '../product-skeleton';
 import ProductDetailsReview from '../product-details-review';
 import ProductDetailsSummary from '../product-details-summary';

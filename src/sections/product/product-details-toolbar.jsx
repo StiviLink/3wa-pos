@@ -55,23 +55,27 @@ export default function ProductDetailsToolbar({
           </Tooltip>
         )}
 
-        <Tooltip title="Edit">
-          <IconButton component={RouterLink} href={editLink}>
-            <Iconify icon="solar:pen-bold" />
-          </IconButton>
-        </Tooltip>
+          {editLink && (
+              <Tooltip title="Edit">
+                  <IconButton component={RouterLink} href={editLink}>
+                      <Iconify icon="solar:pen-bold" />
+                  </IconButton>
+              </Tooltip>
+          )}
 
-        <LoadingButton
-          color="inherit"
-          variant="contained"
-          loading={!publish}
-          loadingIndicator="Loading…"
-          endIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
-          onClick={popover.onOpen}
-          sx={{ textTransform: 'capitalize' }}
-        >
-          {publish}
-        </LoadingButton>
+          {publishOptions && (
+              <LoadingButton
+                  color="inherit"
+                  variant="contained"
+                  loading={!publish}
+                  loadingIndicator="Loading…"
+                  endIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
+                  onClick={popover.onOpen}
+                  sx={{ textTransform: 'capitalize' }}
+              >
+                  {publish}
+              </LoadingButton>
+          )}
       </Stack>
 
       <CustomPopover
@@ -80,7 +84,7 @@ export default function ProductDetailsToolbar({
         arrow="top-right"
         sx={{ width: 140 }}
       >
-        {publishOptions.map((option) => (
+        {publishOptions && publishOptions.map((option) => (
           <MenuItem
             key={option.value}
             selected={option.value === publish}

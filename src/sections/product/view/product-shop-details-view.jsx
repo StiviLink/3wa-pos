@@ -20,7 +20,7 @@ import EmptyContent from '../../../components/empty-content';
 import { useSettingsContext } from '../../../components/settings/context/settings-context';
 import CustomBreadcrumbs from '../../../components/custom-breadcrumbs';
 //
-import useCheckout from '../hooks/use-checkout';
+import useCheckout from '../../hooks/use-checkout';
 import CartIcon from '../common/cart-icon';
 import ProductDetailsReview from '../product-details-review';
 import { ProductDetailsSkeleton } from '../product-skeleton';

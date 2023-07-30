@@ -1,18 +1,18 @@
-import isEqual from 'lodash/isEqual';
-import { useState, useEffect, useCallback } from 'react';
+import isEqual from 'lodash/isEqual'
+import { useState, useEffect, useCallback } from 'react'
 // @mui
-import Card from '@mui/material/Card';
-import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import Container from '@mui/material/Container';
-import TableBody from '@mui/material/TableBody';
-import IconButton from '@mui/material/IconButton';
-import TableContainer from '@mui/material/TableContainer';
+import Card from '@mui/material/Card'
+import Table from '@mui/material/Table'
+import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
+import Container from '@mui/material/Container'
+import TableBody from '@mui/material/TableBody'
+import IconButton from '@mui/material/IconButton'
+import TableContainer from '@mui/material/TableContainer'
 // routes
-import { paths } from '../../../routes/paths';
-import { useRouter } from '../../../routes/hook/use-router';
-import RouterLink from '../../../routes/components/router-link';
+import { paths } from '../../../routes/paths'
+import { useRouter } from '../../../routes/hook'
+import RouterLink from '../../../routes/components/router-link'
 // hooks
 import { useBoolean } from '../../../hooks/use-boolean'
 // _mock
@@ -66,15 +66,15 @@ const defaultFilters = {
 // ----------------------------------------------------------------------
 
 export default function ProductListView() {
-  const router = useRouter();
+  const router = useRouter()
 
-  const table = useTable();
+  const table = useTable()
 
-  const settings = useSettingsContext();
+  const settings = useSettingsContext()
 
-  const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState([])
 
-  const [filters, setFilters] = useState(defaultFilters);
+  const [filters, setFilters] = useState(defaultFilters)
 
   const { products, productsLoading, productsEmpty } = {
     products: getAllProducts,

@@ -44,8 +44,10 @@ const slice = createSlice({
         stock: newProduct.available,
         quantity: 0,
         selected: true,
-        priceTotal: `${newProduct.price}`
+        priceTotal: `0`
       }
+
+      state.cart = state.cart.filter(x => x.quantity>0)
 
       if (!state.cart.length)
         state.cart = [newLine]
@@ -94,6 +96,19 @@ const slice = createSlice({
 
     gotoStep(state, action) {
       state.activeStep = action.payload
+    },
+
+    validateProduct(state) {
+      state.cart = state.cart.map((product) => {
+        if (product.selected) {
+          return product.quantity>0 ? {
+            ...product,
+            selected: false
+          } : undefined
+        }
+        return product
+      }).filter(x => x)
+      state.subTotal = sum(state.cart.map((product) => parseFloat(product.priceTotal)))
     },
 
     updateQuantity(state, action) {
@@ -175,6 +190,7 @@ export const {
   createBilling,
   applyShipping,
   applyDiscount,
+  validateProduct,
   updateQuantity,
   increaseQuantity,
   decreaseQuantity,

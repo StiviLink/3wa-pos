@@ -24,7 +24,7 @@ import { getAllProducts, searchProduct } from 'src/api/product'
 import EmptyContent from 'src/components/empty-content'
 import { useSettingsContext } from 'src/components/settings/context/settings-context'
 //
-import useCheckout from '../hooks/use-checkout'
+import useCheckout from '../../hooks/use-checkout'
 import CartIcon from '../common/cart-icon'
 import ProductList from '../product-list'
 import ProductSort from '../product-sort'

@@ -11,7 +11,7 @@ input {
     width: 60%;
     margin-right: 5%;
     margin-left: -10%;
-    height: 70%;
+    height: 50%;
 }
 
 .sales-input {
@@ -99,4 +99,39 @@ ul, li {
     padding: 8px 16px;
     border-top: 1px solid #E0E2E6;
     box-sizing: border-box;
+}
+
+.icon-cross {
+    text-align: end;
+    margin-top: -2%;
+    margin-right: -2%;
+}
+
+.main-paiement-modal {
+    display: flex;
+    flex-direction: row;
+    height: 80%;
+}
+
+.mpm{
+    width: 50%;
+    border: 1px solid black;
+    overflow: auto;
+}
+
+.mpm h3{
+    text-align: center;
+}
+
+.li-payment-name {
+    padding: 0;
+    display: inline-block;
+    border: 1px solid gray;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bottom-paiement {
+    bottom: 0;
 }
