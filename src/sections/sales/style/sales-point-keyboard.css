@@ -74,18 +74,19 @@ ul, li {
 }
 
 .li-info-list {
-    color: #4A4F59;
+    color: #637381;
     margin-left: 10px;
 }
 
 .li-info-list em {
-    color: #4A4F59;
+    color: #637381;
     font-weight: bold;
     font-style: normal;
 }
 
 .sales-li.selected{
-    background-color: rgba(1, 126, 132, 0.2);
+    background-color: rgba(0, 167, 111, 0.08);
+    color: #00A76F;
     cursor: default;
     transition: background 250ms ease-in-out;
 }
@@ -121,15 +122,33 @@ ul, li {
 
 .mpm h3{
     text-align: center;
+    border-bottom: dotted 1px #637381;
+    padding-bottom: 16px;
 }
 
-.li-payment-name {
-    padding: 0;
-    display: inline-block;
-    border: 1px solid gray;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.payment-line {
+    font-size: 16px;
+    border-bottom: dotted 1px #637381;
+    border-top-width: 0;
+    cursor: pointer;
+    min-height: 60px;
+}
+
+.payment-line.first{
+    margin-top: -16px;
+}
+
+.pl-display {
+    flex-grow: 1;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    color: #637381;
+}
+
+.pld-name {
+    margin-left: 10px;
+    font-family: "Lato", "Lucida Grande", Helvetica, Verdana, Arial, ui-serif;
 }
 
 .bottom-paiement {

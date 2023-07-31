@@ -15,6 +15,7 @@ import { NavSectionVertical } from '../../components/nav-section'
 //
 import { NAV } from '../config-layout'
 import { useNavData } from './config-navigation'
+import {NavToggleButton} from "../_common"
 
 // ----------------------------------------------------------------------
 
@@ -65,6 +66,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
         width: { lg: NAV.W_VERTICAL },
       }}
     >
+        <NavToggleButton />
 
       {lgUp ? (
         <Stack

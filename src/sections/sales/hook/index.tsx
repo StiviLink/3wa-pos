@@ -140,15 +140,26 @@ export const SalesSummary = ({state}:{state:StateProps}) => {
 }
 export const PaymentLine = () => {
     return (
-        <ul className="payment-line">
-            <li className={`sales-li`}>
-                <span className="li-payment-name">
-                    <Iconify icon="mdi:cash" sx={{verticalAlign: 'middle'}} />
-                    CASH
-                    <span></span>
-                </span>
-            </li>
-        </ul>
+        <>
+            <div className="payment-line first">
+                <div className="pl-display">
+                    <Iconify icon="mdi:cash" sx={{verticalAlign: 'middle'}} width={50} />
+                    <span className="pld-name">Cash</span>
+                </div>
+            </div>
+            <div className="payment-line">
+                <div className="pl-display">
+                    <Iconify icon="iconoir:bank" sx={{verticalAlign: 'middle'}} width={50} />
+                    <span className="pld-name">Bank</span>
+                </div>
+            </div>
+            <div className="payment-line">
+                <div className="pl-display">
+                    <Iconify icon="file-icons:autohotkey" sx={{verticalAlign: 'middle'}} width={50} />
+                    <span className="pld-name">Account</span>
+                </div>
+            </div>
+        </>
     )
 }
 export const PaiementModal = (props:Props) => {
@@ -160,7 +171,10 @@ export const PaiementModal = (props:Props) => {
             <>
                 <div className="icon-cross">
                     <Iconify icon="gridicons:cross" width={30} sx={iconStyle}
-                             onClick={() => setState({...state, open: false})}
+                             onClick={() => {
+                                 setState({...state, open: false})
+                                 setIconStyle({...iconStyle, color: ''})
+                             }}
                              onMouseEnter = {() => setIconStyle({...iconStyle, color: 'red'})}
                              onMouseLeave = {() => setIconStyle({...iconStyle, color: ''})}
                     />
