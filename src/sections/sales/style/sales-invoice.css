@@ -1,0 +1,132 @@
+button {
+    display: inline-block;
+    cursor: pointer;
+    box-shadow: none;
+    outline: none;
+    border: none;
+    font-family: 'Lato', sans-serif;
+}
+
+.wsc-receipt-screen {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background: #f6f7fa;
+    overflow: auto;
+}
+
+.wsc-rs-content{
+    justify-content: space-between;
+    position: relative;
+    margin: 0 auto;
+    text-align: left;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    background: #fff;
+}
+
+
+
+.wsc-rsc-top-content {
+    height: 64px;
+    border-bottom: solid 1px #C9CCD2;
+    text-align: center;
+    display: flex;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.wsc-rsc-tc-center {
+    flex-grow: 1;
+    text-align: center;
+}
+
+
+
+.wsc-rsc-default-view {
+    display: flex;
+    overflow: hidden;
+}
+
+.wsc-rsc-dv-actions {
+    flex: 1;
+    margin: 0 1.5rem;
+}
+.wsc-rsc-dv-actions * {
+    font-size: 1rem;
+}
+.wsc-rsc-dv-actions h1 {
+    font-size: 1.5rem;
+    margin-bottom: 4rem;
+}
+.wsc-rsc-dva-buttons {
+    display: flex;
+    margin: 1rem 0;
+}
+.wsc-rsc-dva--button-print {
+    flex: 1;
+    border: solid 1px #d1d1d1;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 3px;
+    cursor: pointer;
+    background: #E0E2E6;
+}
+.wsc-rsc-dva-mail {
+    display: flex;
+}
+.wsc-rsc-dva-mail-input {
+    display: flex;
+    flex: 1;
+    background: white;
+    border: solid 1px #d1d1d1;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+.wsc-rsc-dva-mail input {
+    flex: 1;
+    padding-left: 1rem;
+    border: none;
+    color: #4A4F59;
+}
+.wsc-rsc-dva-mi-button:not(.highlight){
+    cursor: not-allowed;
+}
+.wsc-rsc-dva-mi-button.highlight {
+    color: white;
+    background-color: #017e84;
+}
+.wsc-rsc-dva-mi-button{
+    padding: 1rem 40px;
+    margin: 2px;
+    border: none;
+    background: #E0E2E6;
+    color: #80848F;
+}
+.wsc-rsc-dva-notice {
+    display: flex;
+    margin-top: 6px;
+}
+
+.wsc-rsc-dv-container{
+    flex: 0 1 400px;
+    overflow: auto;
+    font-size: 0.75em;
+    text-align: center;
+    direction: ltr;
+}
+
+
+
+.wsc-rsc-validation-button {
+    display: flex;
+    width: 100%;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 2px;
+}

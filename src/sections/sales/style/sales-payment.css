@@ -1,0 +1,303 @@
+.wc-payment {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background: #f6f7fa;
+    overflow: auto;
+}
+
+.wcp-content {
+    position: relative;
+    margin: 0 auto;
+    text-align: left;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+}
+
+.wcp-top-content {
+    height: 64px;
+    border-bottom: solid 1px #C9CCD2;
+    text-align: center;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    padding-right: 10px;
+    padding-left: 10px;
+    background: #fff;
+}
+
+.wcptc-button {
+    line-height: 32px;
+    padding: 3px 13px;
+    font-size: 14px;
+    margin: 12px 6px;
+    border: solid 1px #E0E2E6;
+    color: #637381;
+    cursor: pointer;
+    transition: all 150ms linear;
+}
+
+.wcptc-button:hover{
+    background-color: #E0E2E6;
+}
+
+.wcptcb-text {
+    line-height: 32px;
+    font-size: 14px;
+    color: #637381;
+    cursor: pointer;
+}
+
+.wcptc-center {
+    flex-grow: 1;
+    margin-top: -10px;
+}
+
+.wcp-main-content {
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    overflow-y: auto;
+}
+
+
+
+.wcp-left-content {
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    border: none;
+    max-height: 100%;
+    background: #fff;
+}
+
+.wcplc-payment-method-container {
+    overflow: scroll;
+    text-align: left;
+}
+
+.wcplc-pmc-pm-tittle {
+    margin: 0;
+    padding: 4px 16px;
+    background: #C9CCD2;
+    color: #4A4F59;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.8125rem;
+}
+
+.wcplc-pmc-pm-detail {
+    font-size: 16px;
+    border-bottom: solid 1px #C9CCD2;
+    border-top-width: 0;
+    min-height: 60px;
+}
+
+.wcplc-pmc-pmd-display {
+    flex-grow: 1;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.wcplc-pmc-payment-lines {
+    display: flex;
+    flex-direction: column-reverse;
+    border-spacing: 0 10px;
+    border-collapse: inherit;
+}
+
+.wcplc-pmc-pl-display {
+    font-size: 16px;
+    border-bottom: solid 1px #C9CCD2;
+    border-top-width: 0;
+    cursor: pointer;
+    display: flex;
+    flex-grow: 1;
+    flex-basis: 100%;
+    min-height: 60px;
+    overflow: auto;
+}
+
+.wcplc-pmc-pld-billet {
+    flex-grow: 1;
+    white-space: nowrap;
+    padding: 16px;
+}
+
+.wcplc-pmc-pld-quantity {
+    padding: 16px;
+}
+
+.wcplc-pmc-pld-delete {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 16px;
+}
+
+.wcplc-pmc-pl-display.selected {
+    background: #E0E2E6;
+}
+
+.wcplc-button:not(.highlight) {
+    cursor: not-allowed;
+    background: #C9CCD2;
+    color: #626774;
+    opacity: .3;
+    pointer-events: none;
+}
+.wcplc-button {
+    position: sticky;
+    bottom: 0;
+    height: auto;
+    width: 100%;
+    padding: 48px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    border: none;
+    background: #017e84;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 150ms linear;
+}
+.wcplc-button.highlight:hover {
+    background: #016f75 !important;
+}
+
+.wcplc-button-circle {
+    display: block;
+    font-size: 32px;
+    background: #212529;
+    color: white;
+    text-align: center;
+    border-radius: 30px;
+    margin-bottom: 10px;
+    position: relative;
+    padding: 14px;
+    font-family: 'odoo_ui_icons', cursive;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+}
+
+
+
+.wcp-center-content {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    border: 10px solid #C9CCD2;
+    width: 30rem;
+    flex-grow: 2;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    background: #fff;
+}
+
+.wcp-cc-payment-lines {
+    padding: 0 16px 16px;
+    border-bottom: solid 10px #C9CCD2;
+    min-height: 154px;
+}
+
+.wcp-cc-pl-payment-status {
+    display: flex;
+    justify-content: space-between;
+    font-size: 25px;
+    padding-top: 15px;
+}
+
+.wcp-ccp-lps-label {
+    padding-right: 7px;
+}
+
+.wcp-ccp-lps-total-due {
+    font-size: 17px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    color: #80848F;
+}
+
+.wcp-cc-payment-buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+.wcp-cc-pb-container {
+    box-sizing: border-box;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.wxp-cc-pbc-numpad {
+    border-top: 1px solid;
+    border-left: 1px solid;
+    border-color: #C9CCD2;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    text-align: center;
+    min-width: 216px;
+}
+
+.wxp-ccp-bcn-button {
+    height: 100%;
+    min-height: 54px;
+    font-size: clamp(0.875rem, 3vw, 36px);
+    float: left;
+    color: #4A4F59;
+    border-radius: 0;
+    border: none #C9CCD2;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+    transition: all 150ms linear;
+    padding: unset;
+    width: 100%;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: none;
+    outline: none;
+    font-family: 'Lato', system-ui;
+    background: #fff;
+}
+
+.wxp-ccp-bcn-button:hover {
+    background: #E0E2E6;
+}
+
+
+
+.wcp-right-content {
+    flex-grow: 1;
+    min-width: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-left: solid 1px #C9CCD2;
+    text-align: left;
+    background: #fff;
+}
+
+
+@media screen and (min-width: 768px) {
+    .wc-payment .wcp-left-content {
+        max-width: 34%;
+    }
+}

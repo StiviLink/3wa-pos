@@ -4,17 +4,21 @@ import React, {ChangeEvent, useEffect, useState} from "react"
 import {KeyboardReactInterface, KeyboardWrapper} from "./keyboard-wrapper"
 //hook
 import {StateProps, onChangeHook, emptySale, SalesLine, SalesSummary, PaiementModal} from "./hook"
+//Style
+import "./style/sales-point-keyboard.css"
 //redux
-import {resetCart} from "../../redux/slice/checkout"
-import {useSelector, useDispatch} from "../../redux/store"
+//import {resetCart} from "src/redux/slice/checkout"
+import {useSelector, useDispatch} from "src/redux/store"
 
 export default function SalesPointKeyboard(){
     let keyboard : KeyboardReactInterface
     const checkout = useSelector((state:any) => state.checkout), cart = checkout.cart, dispatch = useDispatch(),
         subTotal = checkout.subTotal, select = cart.find((x:any) => x.selected), input = `${select?select.quantity??"":""}`
+    /*
     useEffect(() => {
         dispatch(resetCart())
     }, [])
+     */
 
     const [state, setState] = useState({input, lines: cart,
         total: `${subTotal ? subTotal.toFixed(2) : 0}`} as StateProps)
@@ -24,9 +28,9 @@ export default function SalesPointKeyboard(){
         total: subTotal ? subTotal.toFixed(2):0}}), [cart, input, subTotal])
 
     const onChange = (input: string) => {
-        console.log("Input string", input)
+        //console.log("Input string", input)
         onChangeHook({input, state, setState, dispatch})
-        console.log("Input changed", input)
+        //console.log("Input changed", input)
     }
 
     const onChangeInput = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -37,7 +41,7 @@ export default function SalesPointKeyboard(){
 
     return (
         <div className="sales-keyboard">
-            <PaiementModal state={state} setState={setState}/>
+            <PaiementModal state={state} setState={setState} dispatch={dispatch}/>
             <div
                 className="sales-input"
                 onChange={onChangeInput}

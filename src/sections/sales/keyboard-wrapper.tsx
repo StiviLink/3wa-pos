@@ -1,7 +1,6 @@
 import { Component } from "react"
 import Keyboard, {KeyboardReactInterface} from "react-simple-keyboard"
 import "react-simple-keyboard/build/css/index.css"
-import "./style/sales-point-keyboard.css"
 
 const noop = () => {}
 
@@ -13,8 +12,8 @@ interface IProps {
 class KeyboardWrapper extends Component<IProps> {
 
     onKeyPress = (button: string) => {
-        console.log("Button pressed", button)
-    };
+        //console.log("Button pressed", button)
+    }
 
     render() {
         const { keyboardRef = noop, onChange = noop } = this.props;

@@ -23,6 +23,11 @@ export const paths = {
     checkout: `/product/checkout`,
     details: (id: string) => `/product/${id}`
   },
+  sales: {
+    root: `/sales`,
+    payment: `/sales/payment`,
+    invoice: `/sales/invoice`
+  },
   // AUTH
   auth: {
     login: `${ROOTS.AUTH}/login`,
@@ -107,13 +112,7 @@ export const paths = {
     },
     sales: {
       root: `${ROOTS.DASHBOARD}/sales`,
-      new: `${ROOTS.DASHBOARD}/sales/new`,
-      point: `${ROOTS.DASHBOARD}/sales/point`,
-      details: (id: string) => `${ROOTS.DASHBOARD}/sales/${id}`,
-      demo: {
-        details: `${ROOTS.DASHBOARD}/sales/${MOCK_ID}`,
-        edit: `${ROOTS.DASHBOARD}/sales/${MOCK_ID}/edit`,
-      }
+      point: `${ROOTS.DASHBOARD}/sales/point`
     }
   }
 }

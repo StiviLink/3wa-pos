@@ -104,8 +104,8 @@ ul, li {
 
 .icon-cross {
     text-align: end;
-    margin-top: -2%;
-    margin-right: -2%;
+    margin-top: -1.5%;
+    margin-right: -1.5%;
 }
 
 .main-paiement-modal {
@@ -132,10 +132,18 @@ ul, li {
     border-top-width: 0;
     cursor: pointer;
     min-height: 60px;
+    color: #637381;
 }
 
 .payment-line.first{
-    margin-top: -16px;
+    margin-top: -18px;
+}
+
+.payment-line.selected{
+    background-color: rgba(0, 167, 111, 0.08);
+    color: #00A76F;
+    cursor: default;
+    transition: background 250ms ease-in-out;
 }
 
 .pl-display {
@@ -143,7 +151,6 @@ ul, li {
     padding: 16px;
     display: flex;
     align-items: center;
-    color: #637381;
 }
 
 .pld-name {

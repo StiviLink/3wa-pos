@@ -5,35 +5,18 @@ import {createSlice} from '@reduxjs/toolkit'
 // ----------------------------------------------------------------------
 
 const initialState = {
-  activeStep: 0,
   cart: [],
   subTotal: 0,
   total: 0,
-  discount: 0,
-  shipping: 0,
-  billing: null,
   totalItems: 0,
+  paymentMethod: {name: '', icon: '', selected: false},
+  money: []
 }
 
 const slice = createSlice({
   name: 'checkout',
   initialState,
   reducers: {
-    getCart(state, action) {
-      const cart = action.payload
-
-      const totalItems = sum(cart.map((product) => product.quantity))
-
-      const subTotal = sum(cart.map((product) => product.price * product.quantity))
-
-      state.cart = cart
-      state.discount = state.discount || 0
-      state.shipping = state.shipping || 0
-      state.billing = state.billing || null
-      state.subTotal = subTotal
-      state.total = subTotal - state.discount
-      state.totalItems = totalItems
-    },
 
     addToCart(state, action) {
       const newProduct = action.payload
@@ -86,16 +69,40 @@ const slice = createSlice({
       state.totalItems = 0
     },
 
-    backStep(state) {
-      state.activeStep -= 1
+    addToMoney(state, action) {
+      const newMoney = {
+        name:action.payload,
+        quantity: 1,
+        selected: true
+      }
+
+      if (!state.money.length)
+        state.money = [newMoney]
+      else {
+        state.money = state.money.map((money) => {
+          const existMoney = money.name === newMoney.name
+
+          if (existMoney) {
+            return {
+              ...money,
+              quantity: money.quantity+1,
+              selected: true
+            }
+          }
+
+          return {...money, selected: false}
+        })
+      }
+
+      state.money = uniqBy([...state.money, newMoney], 'name')
+      state.total = sum(state.money.map((money) => (money.name.endsWith('€') ? parseInt(money.name) :
+          parseInt(money.name) / 100)*money.quantity))
     },
 
-    nextStep(state) {
-      state.activeStep += 1
-    },
-
-    gotoStep(state, action) {
-      state.activeStep = action.payload
+    deleteMoney(state, action) {
+      state.money = state.money.filter((money) => money.name !== action.payload)
+      state.total = sum(state.money.map((money) => (money.name.endsWith('€') ? parseInt(money.name) :
+          parseInt(money.name) / 100)*money.quantity))
     },
 
     validateProduct(state) {
@@ -109,6 +116,11 @@ const slice = createSlice({
         return product
       }).filter(x => x)
       state.subTotal = sum(state.cart.map((product) => parseFloat(product.priceTotal)))
+      state.totalItems = sum(state.cart.map((product) => product.quantity))
+    },
+
+    validatePaymentMethod(state, action) {
+      state.paymentMethod = action.payload
     },
 
     updateQuantity(state, action) {
@@ -125,53 +137,7 @@ const slice = createSlice({
         return product
       })
       state.subTotal = sum(state.cart.map((product) => parseFloat(product.priceTotal)))
-    },
-
-    increaseQuantity(state, action) {
-      const productId = action.payload;
-
-      state.cart = state.cart.map((product) => {
-        if (product.id === productId) {
-          return {
-            ...product,
-            quantity: product.quantity + 1,
-          }
-        }
-        return product
-      })
-    },
-
-    decreaseQuantity(state, action) {
-      const productId = action.payload
-
-      state.cart = state.cart.map((product) => {
-        if (product.id === productId) {
-          return {
-            ...product,
-            quantity: product.quantity - 1,
-          }
-        }
-        return product;
-      })
-    },
-
-    createBilling(state, action) {
-      state.billing = action.payload;
-    },
-
-    applyDiscount(state, action) {
-      const discount = action.payload
-
-      state.discount = discount
-      state.total = state.subTotal - discount
-    },
-
-    applyShipping(state, action) {
-      const shipping = action.payload
-
-      state.shipping = shipping
-      state.total = state.subTotal - state.discount + shipping
-    },
+    }
   },
 })
 
@@ -180,18 +146,12 @@ export default slice.reducer
 
 // Actions
 export const {
-  getCart,
+  validatePaymentMethod,
   addToCart,
   resetCart,
-  gotoStep,
-  backStep,
-  nextStep,
+  addToMoney,
+  deleteMoney,
   deleteCart,
-  createBilling,
-  applyShipping,
-  applyDiscount,
   validateProduct,
-  updateQuantity,
-  increaseQuantity,
-  decreaseQuantity,
+  updateQuantity
 } = slice.actions

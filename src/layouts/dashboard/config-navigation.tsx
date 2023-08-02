@@ -93,10 +93,7 @@ export function useNavData() {
               path: paths.dashboard.sales.root,
               icon: ICONS.sales,
               children: [
-                {title: t('point'), path: paths.dashboard.sales.point},
-                {title: t('list'), path: paths.dashboard.sales.root},
-                {title: t('details'), path: paths.dashboard.sales.demo.details},
-                {title: t('create'), path: paths.dashboard.sales.new}
+                {title: t('point'), path: paths.dashboard.sales.point}
               ],
             },
           ]

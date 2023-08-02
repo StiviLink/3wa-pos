@@ -5,6 +5,7 @@ import DashboardLayout from "../../layouts/dashboard"
 // routes
 import { dashboardRoutes } from './dashboard'
 import {authRoutes} from "./auth"
+import {salesRoutes} from "./sales"
 //components
 import {LoadingScreen} from "../../components/loading-screen"
 //auth
@@ -30,10 +31,12 @@ export default function Router() {
           </AuthGuard>
       ),
     },
-      //Auth Routes
+      //Auth routes
       ...authRoutes,
       // Dashboard routes
       ...dashboardRoutes,
+      // Sales routes
+      ...salesRoutes,
 
     // No match 404
     { path: '*', element: <Navigate to="/404" replace /> },
