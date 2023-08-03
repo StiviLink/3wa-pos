@@ -17,7 +17,7 @@ export default function SalesInvoice () {
                         <div className="wsc-receipt-screen">
                             <div className="wsc-rs-content">
                                 <TopContentView  checkout={checkout}/>
-                                <DefaultView />
+                                <DefaultView  checkout={checkout}/>
                                 <ValidationButton />
                             </div>
                         </div>

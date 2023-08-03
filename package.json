@@ -4,12 +4,15 @@
   "private": true,
   "dependencies": {
     "@aws-amplify/auth": "^5.5.4",
+    "@emailjs/browser": "^3.11.0",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.1",
     "@hookform/resolvers": "^3.1.1",
     "@iconify/react": "^4.1.1",
     "@mui/lab": "^5.0.0-alpha.136",
     "@mui/material": "^5.13.7",
+    "@react-buddy/ide-toolbox": "^2.4.0",
+    "@react-buddy/palette-mui": "^5.0.1",
     "@react-pdf/renderer": "^3.1.12",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.16.5",
@@ -40,9 +43,7 @@
     "stylis-plugin-rtl": "^2.1.1",
     "web-vitals": "^2.1.4",
     "yet-another-react-lightbox": "^3.11.3",
-    "yup": "^1.2.0",
-    "@react-buddy/ide-toolbox": "^2.4.0",
-    "@react-buddy/palette-mui": "^5.0.1"
+    "yup": "^1.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

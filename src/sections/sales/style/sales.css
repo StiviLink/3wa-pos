@@ -25,3 +25,51 @@
     height: 100%;
     position: relative;
 }
+
+.wcplc-button:not(.highlight) {
+    cursor: not-allowed;
+    background: #C9CCD2;
+    color: #626774;
+    opacity: .3;
+    pointer-events: none;
+}
+.wcplc-button {
+    position: sticky;
+    bottom: 0;
+    height: auto;
+    width: 100%;
+    padding: 48px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    border: none;
+    background: #017e84;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 150ms linear;
+}
+.wcplc-button.highlight:hover {
+    background: #016f75 !important;
+}
+
+.wcplc-button-circle {
+    display: block;
+    font-size: 32px;
+    background: #212529;
+    color: white;
+    text-align: center;
+    border-radius: 30px;
+    margin-bottom: 10px;
+    position: relative;
+    padding: 14px;
+    font-family: 'odoo_ui_icons', cursive;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+}
