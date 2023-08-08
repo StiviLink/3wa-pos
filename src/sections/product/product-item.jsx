@@ -20,13 +20,13 @@ import ColorPreview from '../../components/color-utils/color-preview';
 
 // ----------------------------------------------------------------------
 
-export default function ProductItem({ product }) {
+export default function ProductItem({ product, addCart }) {
   const { id, name, coverUrl, price, colors, available, sizes, priceSale, newLabel, saleLabel } =
     product;
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const linkTo = paths.product.details(id);
+  const linkTo = paths.dashboard.product.details(id)
 
   const handleAddCart = async () => {
     const newProduct = {
@@ -68,26 +68,28 @@ export default function ProductItem({ product }) {
 
   const renderImg = (
     <Box sx={{ position: 'relative', p: 1 }}>
-      <Fab
-        color="warning"
-        size="medium"
-        className="add-cart-btn"
-        onClick={handleAddCart}
-        sx={{
-          right: 16,
-          bottom: 16,
-          zIndex: 9,
-          opacity: 0,
-          position: 'absolute',
-          transition: (theme) =>
-            theme.transitions.create('all', {
-              easing: theme.transitions.easing.easeInOut,
-              duration: theme.transitions.duration.shorter,
-            }),
-        }}
-      >
-        <Iconify icon="solar:cart-plus-bold" width={24} />
-      </Fab>
+        {addCart ?
+            <Fab
+                color="warning"
+                size="medium"
+                className="add-cart-btn"
+                onClick={handleAddCart}
+                sx={{
+                    right: 16,
+                    bottom: 16,
+                    zIndex: 9,
+                    opacity: 0,
+                    position: 'absolute',
+                    transition: (theme) =>
+                        theme.transitions.create('all', {
+                            easing: theme.transitions.easing.easeInOut,
+                            duration: theme.transitions.duration.shorter,
+                        }),
+                }}
+            >
+                <Iconify icon="solar:cart-plus-bold" width={24} />
+            </Fab>
+         : ""}
 
       <Image alt={name} src={coverUrl} ratio="1/1" sx={{ borderRadius: 1.5 }} />
     </Box>

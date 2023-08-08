@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'src/redux/store'
 import {
   addToCart,
   deleteCart
-} from '../../redux/slice/checkout'
+} from '../../../redux/slice/checkout'
 
 // ----------------------------------------------------------------------
 

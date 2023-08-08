@@ -1,28 +1,25 @@
-import { useEffect, useCallback } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useEffect } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 // @mui
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import Rating from '@mui/material/Rating';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
-import { formHelperTextClasses } from '@mui/material/FormHelperText';
+import Box from '@mui/material/Box'
+import Link from '@mui/material/Link'
+import Stack from '@mui/material/Stack'
+import Divider from '@mui/material/Divider'
+import MenuItem from '@mui/material/MenuItem'
+import Typography from '@mui/material/Typography'
+import { formHelperTextClasses } from '@mui/material/FormHelperText'
 // routes
-import { paths } from '../../routes/paths';
-import { useRouter } from '../../routes/hook/use-router';
+import { paths } from 'src/routes/paths'
+import { useRouter } from '../../routes/hook'
 // utils
-import { fShortenNumber, fCurrency } from '../../utils/format-number';
+import { fCurrency } from '../../utils/format-number'
 // components
-import Label from '../../components/label';
-import Iconify from '../../components/iconify';
-import ColorPicker from '../../components/color-utils/color-picker';
-import FormProvider from '../../components/hook-form/form-provider';
-import { RHFSelect } from '../../components/hook-form/rhf-select'
+import Label from '../../components/label'
+import ColorPicker from '../../components/color-utils/color-picker'
+import FormProvider from '../../components/hook-form/form-provider'
+import { RHFSelect } from '../../components/hook-form'
 //
-import IncrementerButton from './common/incrementer-button';
+import IncrementerButton from './common/incrementer-button'
 
 // ----------------------------------------------------------------------
 
@@ -47,16 +44,11 @@ export default function ProductDetailsSummary({
     available,
     priceSale,
     saleLabel,
-    totalRatings,
-    totalReviews,
     inventoryType,
     subDescription,
   } = product;
 
-  const existProduct = cart.map((item) => item.id).includes(id);
-
-  const isMaxQuantity =
-    cart.filter((item) => item.id === id).map((item) => item.quantity)[0] >= available;
+  const existProduct = cart.map((item) => item.id).includes(id)
 
   const defaultValues = {
     id,
@@ -73,7 +65,7 @@ export default function ProductDetailsSummary({
     defaultValues,
   });
 
-  const { reset, watch, control, setValue, handleSubmit } = methods;
+  const { reset, watch, control, setValue, handleSubmit } = methods
 
   const values = watch();
 
@@ -98,19 +90,7 @@ export default function ProductDetailsSummary({
     } catch (error) {
       console.error(error);
     }
-  });
-
-  const handleAddCart = useCallback(() => {
-    try {
-      onAddCart({
-        ...values,
-        colors: [values.colors],
-        subTotal: values.price * values.quantity,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }, [onAddCart, values]);
+  })
 
   // ----------------------------------------------------------------------
 
@@ -127,35 +107,7 @@ export default function ProductDetailsSummary({
 
       {fCurrency(price)}
     </Box>
-  );
-
-  const renderShare = (
-    <Stack direction="row" spacing={3} justifyContent="center">
-      <Link
-        variant="subtitle2"
-        sx={{ color: 'text.secondary', display: 'inline-flex', alignItems: 'center' }}
-      >
-        <Iconify icon="mingcute:add-line" width={16} sx={{ mr: 1 }} />
-        Compare
-      </Link>
-
-      <Link
-        variant="subtitle2"
-        sx={{ color: 'text.secondary', display: 'inline-flex', alignItems: 'center' }}
-      >
-        <Iconify icon="solar:heart-bold" width={16} sx={{ mr: 1 }} />
-        Favorite
-      </Link>
-
-      <Link
-        variant="subtitle2"
-        sx={{ color: 'text.secondary', display: 'inline-flex', alignItems: 'center' }}
-      >
-        <Iconify icon="solar:share-bold" width={16} sx={{ mr: 1 }} />
-        Share
-      </Link>
-    </Stack>
-  );
+  )
 
   const renderColorOptions = (
     <Stack direction="row">
@@ -176,7 +128,7 @@ export default function ProductDetailsSummary({
         )}
       />
     </Stack>
-  );
+  )
 
   const renderSizeOptions = (
     <Stack direction="row">
@@ -208,7 +160,7 @@ export default function ProductDetailsSummary({
         ))}
       </RHFSelect>
     </Stack>
-  );
+  )
 
   const renderQuantity = (
     <Stack direction="row">
@@ -231,55 +183,20 @@ export default function ProductDetailsSummary({
         </Typography>
       </Stack>
     </Stack>
-  );
-
-  const renderActions = (
-    <Stack direction="row" spacing={2}>
-      <Button
-        fullWidth
-        disabled={isMaxQuantity || disabledActions}
-        size="large"
-        color="warning"
-        variant="contained"
-        startIcon={<Iconify icon="solar:cart-plus-bold" width={24} />}
-        onClick={handleAddCart}
-        sx={{ whiteSpace: 'nowrap' }}
-      >
-        Add to Cart
-      </Button>
-
-      <Button fullWidth size="large" type="submit" variant="contained" disabled={disabledActions}>
-        Buy Now
-      </Button>
-    </Stack>
-  );
+  )
 
   const renderSubDescription = (
     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
       {subDescription}
     </Typography>
-  );
-
-  const renderRating = (
-    <Stack
-      direction="row"
-      alignItems="center"
-      sx={{
-        color: 'text.disabled',
-        typography: 'body2',
-      }}
-    >
-      <Rating size="small" value={totalRatings} precision={0.1} readOnly sx={{ mr: 1 }} />
-      {`(${fShortenNumber(totalReviews)} reviews)`}
-    </Stack>
-  );
+  )
 
   const renderLabels = (newLabel.enabled || saleLabel.enabled) && (
     <Stack direction="row" alignItems="center" spacing={1}>
       {newLabel.enabled && <Label color="info">{newLabel.content}</Label>}
       {saleLabel.enabled && <Label color="error">{saleLabel.content}</Label>}
     </Stack>
-  );
+  )
 
   const renderInventoryType = (
     <Box
@@ -306,9 +223,6 @@ export default function ProductDetailsSummary({
 
           <Typography variant="h5">{name}</Typography>
 
-          {//renderRating
-          }
-
           {renderPrice}
 
           {renderSubDescription}
@@ -323,12 +237,7 @@ export default function ProductDetailsSummary({
         {renderQuantity}
 
         <Divider sx={{ borderStyle: 'dashed' }} />
-
-        {renderActions}
-
-        {//renderShare
-        }
       </Stack>
     </FormProvider>
-  );
+  )
 }

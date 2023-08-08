@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 // routes
 import { paths } from '../../routes/paths'
 import { useRouter } from '../../routes/hook'
@@ -8,10 +8,6 @@ import { useAuthContext } from '../hooks/use-auth-context'
 // ----------------------------------------------------------------------
 
 const loginPaths: Record<string, string> = {
-  jwt: paths.auth.jwt.login,
-  auth0: paths.auth.auth0.login,
-  amplify: paths.auth.amplify.login,
-  firebase: paths.auth.firebase.login,
   simple: paths.auth.login
 }
 
@@ -46,7 +42,7 @@ export default function AuthGuard({ children }: Props) {
 
   useEffect(() => {
     check()
-  }, [])
+  }, [check])
 
   if (!checked) {
     return null

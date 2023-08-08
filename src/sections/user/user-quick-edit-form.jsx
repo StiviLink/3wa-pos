@@ -1,0 +1,176 @@
+import * as Yup from 'yup'
+import { useMemo } from 'react'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+// @mui
+import LoadingButton from '@mui/lab/LoadingButton';
+import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import MenuItem from '@mui/material/MenuItem';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+// _mock
+import {USER_ROLES_OPTIONS, USER_STATUS_OPTIONS} from 'src/_mock/_user'
+// assets
+import { countries } from 'src/assets/data'
+// components
+import Iconify from 'src/components/iconify'
+import FormProvider, { RHFSelect, RHFTextField, RHFAutocomplete } from 'src/components/hook-form'
+//api
+import {updateUser} from "src/api/user"
+
+// ----------------------------------------------------------------------
+
+export default function UserQuickEditForm({ currentUser, open, onClose, setTableData }) {
+
+  const NewUserSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+    phone: Yup.string().required('Phone number is required'),
+    address: Yup.string().required('Address is required'),
+    country: Yup.string().required('Country is required'),
+    state: Yup.string().required('State is required'),
+    city: Yup.string().required('City is required'),
+    role: Yup.string().required('Role is required')
+  })
+
+  const defaultValues = useMemo(
+    () => ({
+      name: currentUser?.name || '',
+      email: currentUser?.email || '',
+      phone: currentUser?.phone || '',
+      address: currentUser?.address || '',
+      country: currentUser?.country || '',
+      state: currentUser?.state || '',
+      city: currentUser?.city || '',
+      zipCode: currentUser?.zipCode || '',
+      status: currentUser?.status,
+      role: currentUser?.role || '',
+    }),
+    [currentUser]
+  )
+
+  const methods = useForm({
+    resolver: yupResolver(NewUserSchema),
+    defaultValues,
+  })
+
+  const {
+    reset,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+        console.info('update user',await updateUser({...data, idUser: currentUser.id, addressIds: currentUser.addressIds}))
+        setTableData(tableData => {
+            return tableData.map(row => row.id===currentUser.id ? {...data, id: currentUser.id, addressIds: currentUser.addressIds} : row)
+        })
+      reset()
+      onClose()
+      //enqueueSnackbar('Update success!')
+    } catch (error) {
+      console.error(error)
+    }
+  })
+
+  return (
+    <Dialog
+      fullWidth
+      maxWidth={false}
+      open={open}
+      onClose={onClose}
+      PaperProps={{
+        sx: { maxWidth: 720 },
+      }}
+    >
+      <FormProvider methods={methods} onSubmit={onSubmit}>
+        <DialogTitle>Quick Update</DialogTitle>
+
+        <DialogContent>
+          <Alert variant="outlined" severity="info" sx={{ mb: 3 }}>
+            Account is waiting for confirmation
+          </Alert>
+
+          <Box
+            rowGap={3}
+            columnGap={2}
+            display="grid"
+            gridTemplateColumns={{
+              xs: 'repeat(1, 1fr)',
+              sm: 'repeat(2, 1fr)',
+            }}
+          >
+            <RHFSelect name="status" label="Status">
+              {USER_STATUS_OPTIONS.map((status) => (
+                <MenuItem key={status.value} value={status.value}>
+                  {status.label}
+                </MenuItem>
+              ))}
+            </RHFSelect>
+
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }} />
+
+            <RHFTextField name="name" label="Full Name" />
+            <RHFTextField name="email" label="Email Address" />
+            <RHFTextField name="phone" label="Phone Number" />
+
+            <RHFAutocomplete
+              name="country"
+              label="Country"
+              options={countries.map((country) => country.label)}
+              getOptionLabel={(option) => option}
+              renderOption={(props, option) => {
+                const { code, label, phone } = countries.filter(
+                  (country) => country.label === option
+                )[0]
+
+                if (!label) {
+                  return null
+                }
+
+                return (
+                  <li {...props} key={label}>
+                    <Iconify
+                      key={label}
+                      icon={`circle-flags:${code.toLowerCase()}`}
+                      width={28}
+                      sx={{ mr: 1 }}
+                    />
+                    {label} ({code}) +{phone}
+                  </li>
+                );
+              }}
+            />
+
+            <RHFTextField name="state" label="State/Region" />
+            <RHFTextField name="city" label="City" />
+            <RHFTextField name="address" label="Address" />
+            <RHFTextField name="zipCode" label="Zip/Code" />
+              <RHFSelect name="role" label="Role">
+                  {USER_ROLES_OPTIONS.map((role) => (
+                      <MenuItem key={role} value={role}>
+                          {role}
+                      </MenuItem>
+                  ))}
+              </RHFSelect>
+          </Box>
+        </DialogContent>
+
+        <DialogActions>
+          <Button variant="outlined" onClick={onClose}>
+            Cancel
+          </Button>
+
+          <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+            Update
+          </LoadingButton>
+        </DialogActions>
+      </FormProvider>
+    </Dialog>
+  )
+}

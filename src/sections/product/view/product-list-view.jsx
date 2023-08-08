@@ -12,7 +12,6 @@ import TableContainer from '@mui/material/TableContainer'
 // routes
 import { paths } from '../../../routes/paths'
 import { useRouter } from '../../../routes/hook'
-import RouterLink from '../../../routes/components/router-link'
 // hooks
 import { useBoolean } from '../../../hooks/use-boolean'
 // _mock
@@ -170,16 +169,6 @@ export default function ProductListView() {
             },
             { name: 'List' },
           ]}
-          action={
-            <Button
-              component={RouterLink}
-              href={paths.dashboard.product.new}
-              variant="contained"
-              startIcon={<Iconify icon="mingcute:add-line" />}
-            >
-              New Product
-            </Button>
-          }
           sx={{ mb: { xs: 3, md: 5 } }}
         />
 

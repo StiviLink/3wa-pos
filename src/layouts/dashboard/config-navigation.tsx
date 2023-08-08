@@ -33,22 +33,6 @@ export function useNavData() {
         {
           subheader: t('management'),
           items: [
-            /*
-          // USER
-          {
-            title: t('user'),
-            path: paths.dashboard.user.root,
-            icon: ICONS.user,
-            children: [
-              { title: t('profile'), path: paths.dashboard.user.root },
-              { title: t('cards'), path: paths.dashboard.user.cards },
-              { title: t('list'), path: paths.dashboard.user.list },
-              { title: t('create'), path: paths.dashboard.user.new },
-              { title: t('edit'), path: paths.dashboard.user.demo.edit },
-              { title: t('account'), path: paths.dashboard.user.account },
-            ],
-          },
-            */
 
             // PRODUCT
             {
@@ -56,10 +40,7 @@ export function useNavData() {
               path: paths.dashboard.product.root,
               icon: ICONS.product,
               children: [
-                {title: t('list'), path: paths.dashboard.product.root},
-                {title: t('details'), path: paths.dashboard.product.demo.details},
-                {title: t('create'), path: paths.dashboard.product.new},
-                {title: t('edit'), path: paths.dashboard.product.demo.edit},
+                {title: t('list'), path: paths.dashboard.product.root}
               ],
             },
 
@@ -69,8 +50,7 @@ export function useNavData() {
               path: paths.dashboard.order.root,
               icon: ICONS.order,
               children: [
-                {title: t('list'), path: paths.dashboard.order.root},
-                {title: t('details'), path: paths.dashboard.order.demo.details},
+                {title: t('list'), path: paths.dashboard.order.root}
               ],
             },
 
@@ -81,9 +61,7 @@ export function useNavData() {
               icon: ICONS.invoice,
               children: [
                 {title: t('list'), path: paths.dashboard.invoice.root},
-                {title: t('details'), path: paths.dashboard.invoice.demo.details},
-                {title: t('create'), path: paths.dashboard.invoice.new},
-                {title: t('edit'), path: paths.dashboard.invoice.demo.edit},
+                {title: t('create'), path: paths.dashboard.invoice.new}
               ],
             },
 
@@ -94,6 +72,18 @@ export function useNavData() {
               icon: ICONS.sales,
               children: [
                 {title: t('point'), path: paths.dashboard.sales.point}
+              ],
+            },
+
+            // USER
+            {
+              title: t('user'),
+              path: paths.dashboard.user.root,
+              icon: ICONS.user,
+              children: [
+                { title: t('list'), path: paths.dashboard.user.list },
+                { title: t('create'), path: paths.dashboard.user.new },
+                { title: t('account'), path: paths.dashboard.user.account }
               ],
             },
           ]

@@ -1,5 +1,5 @@
-import { useCallback } from 'react';
-import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
+import { useCallback } from 'react'
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 // @mui
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -12,14 +12,14 @@ import IconButton from '@mui/material/IconButton';
 import DialogActions from '@mui/material/DialogActions';
 import CircularProgress from '@mui/material/CircularProgress';
 // routes
-import { paths } from '../../routes/paths';
-import { useRouter } from '../../routes/hook/use-router';
+import { paths } from '../../routes/paths'
+import { useRouter } from '../../routes/hook'
 // hooks
-import { useBoolean } from '../../hooks/use-boolean';
+import { useBoolean } from '../../hooks/use-boolean'
 // components
-import Iconify from '../../components/iconify';
+import Iconify from '../../components/iconify'
 //
-import InvoicePDF from './invoice-pdf';
+import InvoicePDF from './invoice-pdf'
 
 // ----------------------------------------------------------------------
 
