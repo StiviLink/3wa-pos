@@ -10,7 +10,9 @@ const deleteAll = () => http.delete(`/user`)
 const getByName = (name:string) => http.get(`/user?name=${name}`)
 const getByEmail = (email:string) => http.get(`/user?email=${email}`)
 const getByRole = (role:string) => http.get(`/user?role=${role}`)
-const getByIdConnexion = (idConnexion:string) => http.get(`/idConnexion?role=${idConnexion}`)
+const getByIdConnexion = (idConnexion:string) => http.get(`/user?idConnexion=${idConnexion}`)
+const getByStatus = (status:string) => http.get(`/user?status=${status}`)
 export const userService = {
-    getAll, get, create, update, deleteOne, deleteAll, getByName, getByEmail, getByRole
+    getAll, get, create, update, deleteOne, deleteAll, getByName, getByEmail, getByRole,
+    getByIdConnexion, getByStatus
 }

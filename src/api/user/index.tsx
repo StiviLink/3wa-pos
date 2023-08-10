@@ -2,6 +2,7 @@
 import {addressService, userService} from "src/services"
 //type
 import {User, Address} from "src/types"
+import {dataURLtoFile} from "src/sections/hook"
 interface UserProp extends User, Address{}
 
 const getAddressById = async (id:string) => {
@@ -13,12 +14,21 @@ const getAddressById = async (id:string) => {
         return e
     }
 }
+const userComplete = async (user:any) => {
+    const address = await getAddressById(user.addressIds[0])
+    const dataUrl = 'data:image/png;base64,'+user.image
+    const file = dataURLtoFile(dataUrl, 'image.png')
+    const newFile = Object.assign(file, {
+        preview: URL.createObjectURL(file),
+    })
+    user.imageUrl = newFile.preview
+    return {...address, ...user}
+}
 export const getAllUsers = async () => {
     try {
         const results = [] ,userData = (await userService.getAll()).data
         for(const user of userData){
-            const address = await getAddressById(user.addressIds[0])
-            results.push({...address, ...user})
+            results.push(await userComplete(user))
         }
         return results
     }
@@ -29,9 +39,8 @@ export const getAllUsers = async () => {
 }
 const getUserById = async (id:string) => {
     try {
-        const user = (await userService.get(id)).data,
-            address = await getAddressById(user.addressIds[0])
-        return {...address, ...user}
+        const user = (await userService.get(id)).data
+        if(user) return await userComplete(user)
     }
     catch (e) {
         console.error('Error getUserById', e)
@@ -41,13 +50,42 @@ const getUserById = async (id:string) => {
 export const getUserByEmail = async (email:string) => {
     try {
         const user = (await userService.getByEmail(email)).data[0]
-        if(user) {
-            const address = await getAddressById(user.addressIds[0])
-            return {...address, ...user}
-        }
+        if(user) return await userComplete(user)
     }
     catch (e) {
         console.error('Error getUserByEmail', e)
+        return e
+    }
+}
+const getUsersByIdConnexion = async (idConnexion:string) => {
+    try {
+        return (await userService.getByIdConnexion(idConnexion)).data??[]
+    }
+    catch (e) {
+        console.error('Error getUsersByIdConnexion', e)
+        return e
+    }
+}
+const getUsersByStatus = async (status:string) => {
+    try {
+        return (await userService.getByStatus(status)).data??[]
+    }
+    catch (e) {
+        console.error('Error getUsersByStatus', e)
+        return e
+    }
+}
+export const getUserToActivate = async (idConnexion:string) => {
+    try {
+        const usersWithConnexion = await getUsersByIdConnexion(idConnexion),
+            usersPending = await getUsersByStatus('pending')
+        if(usersWithConnexion && usersPending){
+            const user = usersWithConnexion.find((x:any) => usersPending.find((y:any) => x.id===y.id))
+            if(user) return await userComplete(user)
+        }
+    }
+    catch (e) {
+        console.error('Error getUserToActivate', e)
         return e
     }
 }
@@ -80,6 +118,7 @@ export const createUser = async (data:UserProp) => {
             , role: data.role
             , isVerified: data.isVerified
             , addressIds: [addressCreated.id]
+            , idConnexion: data.idConnexion
         }
         return (await userService.create(user)).data
     }

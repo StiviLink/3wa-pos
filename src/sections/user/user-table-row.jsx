@@ -1,7 +1,6 @@
 // @mui
 import Button from '@mui/material/Button'
 import Avatar from '@mui/material/Avatar'
-import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import TableRow from '@mui/material/TableRow'
 import Checkbox from '@mui/material/Checkbox'
@@ -15,24 +14,18 @@ import Label from 'src/components/label'
 import Iconify from 'src/components/iconify'
 import CustomPopover, { usePopover } from 'src/components/custom-popover'
 import ConfirmDialog from 'src/components/custom-dialog'
-//
-import UserQuickEditForm from './user-quick-edit-form'
 
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
   row,
   selected,
-  onEditRow,
   onSelectRow,
-  onDeleteRow,
-  setTableData
+  onDeleteRow
 }) {
-  const { name, image, role, status, email, phone } = row
+  const { name, imageUrl, role, status, email, phone } = row
 
   const confirm = useBoolean()
-
-  const quickEdit = useBoolean()
 
   const popover = usePopover()
 
@@ -44,7 +37,7 @@ export default function UserTableRow({
         </TableCell>
 
         <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar alt={name} src={image} sx={{ mr: 2 }} />
+          <Avatar alt={name} src={imageUrl} sx={{ mr: 2 }} />
 
           <ListItemText
             primary={name}
@@ -76,19 +69,11 @@ export default function UserTableRow({
         </TableCell>
 
         <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
-          <Tooltip title="Quick Edit" placement="top" arrow>
-            <IconButton color={quickEdit.value ? 'inherit' : 'default'} onClick={quickEdit.onTrue}>
-              <Iconify icon="solar:pen-bold" />
-            </IconButton>
-          </Tooltip>
-
           <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
         </TableCell>
       </TableRow>
-
-      <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} setTableData={setTableData} />
 
       <CustomPopover
         open={popover.open}
@@ -105,16 +90,6 @@ export default function UserTableRow({
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            onEditRow()
-            popover.onClose()
-          }}
-        >
-          <Iconify icon="solar:pen-bold" />
-          Edit
         </MenuItem>
       </CustomPopover>
 

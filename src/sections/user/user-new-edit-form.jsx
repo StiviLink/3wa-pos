@@ -2,6 +2,7 @@ import * as Yup from 'yup'
 import {useCallback, useMemo, useState} from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { v4 as uuidv4 } from 'uuid'
 // @mui
 import LoadingButton from '@mui/lab/LoadingButton'
 import Box from '@mui/material/Box'
@@ -30,7 +31,7 @@ import FormProvider, {
     RHFAutocomplete, RHFSelect,
 } from 'src/components/hook-form'
 //hook
-import {convertImageToBase64} from "../hook"
+import {axiosMailSend, convertImageToBase64} from "../hook"
 import useUser from "../hook/use-user"
 //api
 import {getUserByEmail, createUser} from "src/api/user"
@@ -39,7 +40,7 @@ import {USER_ROLES_OPTIONS} from "../../_mock/_user"
 // ----------------------------------------------------------------------
 export default function UserNewEditForm({ currentUser }) {
   const router = useRouter(), [base64, setBase64] = useState(''),
-      {onAddToUsers} = useUser()
+      [imageUrl, setImageUrl] = useState(''), {onAddToUsers} = useUser()
 
   const NewUserSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -70,7 +71,7 @@ export default function UserNewEditForm({ currentUser }) {
       zipCode: currentUser?.zipCode || '',
       avatarUrl: currentUser?.avatarUrl || null,
       phone: currentUser?.phone || '',
-      isVerified: currentUser?.isVerified || true,
+      isVerified: currentUser?.isVerified || false,
     }),
     [currentUser]
   )
@@ -94,15 +95,36 @@ export default function UserNewEditForm({ currentUser }) {
   const onSubmit = handleSubmit(async (data) => {
     try {
         data.image = base64
+        data.imageUrl = imageUrl
+        data.idConnexion = uuidv4()
         console.info('DATA', data)
         const verifyUser = await getUserByEmail(data.email)
         console.info('verifyUser', verifyUser)
         if(!verifyUser){
-            await createUser(data)
-            data.status = data.isVerified ? 'active' : 'pending'
-            onAddToUsers(data)
-            reset()
-            router.push(paths.dashboard.user.list)
+            if(await createUser(data)){
+                data.status = data.isVerified ? 'active' : 'pending'
+                onAddToUsers(data)
+                const dataEmail = {
+                    Recipients: [{Email: data.email}],
+                    Content: {
+                        Body: [
+                            {
+                                ContentType: "HTML",
+                                Content: `<h1><strong>Veuillez activer votre compte POS</strong></h1>
+<p><a href=${'http://localhost:3000'+paths.auth.login+'?activate='+data.idConnexion+'&returnTo='+paths.dashboard.user.account}>Cliquez sur ce lien pour activer votre compte</a></p>
+<br/><p>Votre mot de passe de connexion est <strong>password</strong>! Prière de le modifier une fois connecté</p>`,
+                                Charset: "UTF-8"
+                            }
+                        ],
+                        From: "Stivi Linkid <stivi-linkid@hotmail.com>",
+                        Subject: "Activation du compte POS"
+                    }
+                }
+                axiosMailSend(dataEmail).then(() => {
+                    reset()
+                    router.push(paths.dashboard.user.list)
+                })
+            }
         }
         else {
             alert('This email is already registered')
@@ -120,6 +142,7 @@ export default function UserNewEditForm({ currentUser }) {
       const newFile = Object.assign(file, {
         preview: URL.createObjectURL(file),
       })
+         setImageUrl(newFile.preview)
          convertImageToBase64(newFile.preview, setBase64)
 
       if (file) {

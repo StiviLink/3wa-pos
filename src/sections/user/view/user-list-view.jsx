@@ -75,9 +75,7 @@ export default function UserListView() {
 
   const table = useTable()
 
-  const settings = useSettingsContext();
-
-  const router = useRouter()
+  const settings = useSettingsContext()
 
   const confirm = useBoolean()
 
@@ -138,13 +136,6 @@ export default function UserListView() {
       totalRowsFiltered: dataFiltered.length
     })
   }, [dataFiltered.length, dataInPage.length, table, tableData])
-
-  const handleEditRow = useCallback(
-    (id) => {
-      router.push(paths.dashboard.user.edit(id))
-    },
-    [router]
-  )
 
   const handleFilterStatus = useCallback(
     (event, newValue) => {
@@ -294,8 +285,6 @@ export default function UserListView() {
                         selected={table.selected.includes(row.id)}
                         onSelectRow={() => table.onSelectRow(row.id)}
                         onDeleteRow={() => handleDeleteRow(row.id)}
-                        onEditRow={() => handleEditRow(row.id)}
-                        setTableData={setTableData}
                       />
                     ))}
 

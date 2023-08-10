@@ -9,6 +9,7 @@ import { PATH_AFTER_LOGIN } from 'src/config-global'
 import useUser from "src/sections/hook/use-user"
 import useProducts from "src/sections/hook/use-products"
 import useOrders from "src/sections/hook/use-orders"
+import {getUserToActivate, updateUser} from "../../../api/user"
 
 const LoginView = () => {
     const { login } = useAuthContext()
@@ -32,7 +33,24 @@ const LoginView = () => {
 
     const [password, setPassword] = useState('')
 
-    const returnTo = searchParams.get('returnTo')
+    const returnTo = searchParams.get('returnTo'),
+        activate = searchParams.get('activate')
+
+    useEffect(() => {
+        if(activate) {
+            getUserToActivate(activate).then(res => {
+                if(res) {
+                    res.isVerified = true
+                    res.status = 'active'
+                    res.idUser = res.id
+                    updateUser(res).then(() => {
+                        setEmail(res.email)
+                        setPassword('password')
+                    })
+                }
+            })
+        }
+    }, [])
     const onSubmit =  async () => {
         try {
             const failed = document.getElementById("failed")
@@ -47,7 +65,7 @@ const LoginView = () => {
                     console.info('logged', logged)
                     if(logged) {
                         onInitUser()
-                        router.replace(returnTo || PATH_AFTER_LOGIN)
+                        router.replace(returnTo??PATH_AFTER_LOGIN)
                     }
                     else {
                         failed.innerText = 'Bad credentials'

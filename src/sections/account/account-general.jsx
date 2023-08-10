@@ -1,15 +1,14 @@
 import * as Yup from 'yup'
-import {useCallback} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 // @mui
-import LoadingButton from '@mui/lab/LoadingButton';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
+import LoadingButton from '@mui/lab/LoadingButton'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import Stack from '@mui/material/Stack'
+import Grid from '@mui/material/Unstable_Grid2'
+import Typography from '@mui/material/Typography'
 // utils
 import { fData } from 'src/utils/format-number'
 // assets
@@ -18,13 +17,15 @@ import { countries } from 'src/assets/data'
 import Iconify from 'src/components/iconify'
 //import { useSnackbar } from 'src/components/snackbar';
 import FormProvider, {
-  RHFSwitch,
   RHFTextField,
   RHFUploadAvatar,
   RHFAutocomplete,
 } from 'src/components/hook-form';
 //hook
-import useUser from "src/sections/hook/use-user"
+import useUser from "../hook/use-user"
+import {convertImageToBase64} from "../hook"
+//api
+import {updateUser} from "../../api/user"
 
 // ----------------------------------------------------------------------
 
@@ -41,27 +42,22 @@ export default function AccountGeneral() {
     state: Yup.string().required('State is required'),
     city: Yup.string().required('City is required'),
     zipCode: Yup.string().required('Zip code is required'),
-    about: Yup.string().required('About is required'),
-    // not required
-    isPublic: Yup.boolean(),
+    about: Yup.string().required('About is required')
   })
 
-  const {currentUser} = useUser()
-
-    console.info('currentUser', currentUser)
+  const {currentUser, onUpdateCurrentUser} = useUser(), [base64, setBase64] = useState(currentUser.image)
 
   const defaultValues = {
     displayName: currentUser?.name || '',
     email: currentUser?.email || '',
-    photoURL: currentUser?.image || null,
+    photoURL: currentUser?.imageUrl || null,
     phoneNumber: currentUser?.phone || '',
     country: currentUser?.country || '',
     address: currentUser?.address || '',
     state: currentUser?.state || '',
     city: currentUser?.city || '',
     zipCode: currentUser?.zipCode || '',
-    about: currentUser?.description || '',
-    isPublic: currentUser?.isPublic || false,
+    about: currentUser?.description || ''
   };
 
   const methods = useForm({
@@ -77,9 +73,12 @@ export default function AccountGeneral() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-//      enqueueSnackbar('Update success!');
-      console.info('DATA', data);
+        data.idUser = currentUser.id
+        data.image = base64
+        data.description = data.about
+        data.description = data.about
+        await updateUser({...currentUser, ...data})
+        onUpdateCurrentUser({...currentUser, ...data})
     } catch (error) {
       console.error(error);
     }
@@ -87,15 +86,16 @@ export default function AccountGeneral() {
 
   const handleDrop = useCallback(
     (acceptedFiles) => {
-      const file = acceptedFiles[0];
+        const file = acceptedFiles[0]
 
-      const newFile = Object.assign(file, {
-        preview: URL.createObjectURL(file),
-      });
+        const newFile = Object.assign(file, {
+            preview: URL.createObjectURL(file),
+        })
+        convertImageToBase64(newFile.preview, setBase64)
 
-      if (file) {
-        setValue('photoURL', newFile, { shouldValidate: true });
-      }
+        if (file) {
+            setValue('avatarUrl', newFile, { shouldValidate: true });
+        }
     },
     [setValue]
   )
@@ -125,17 +125,6 @@ export default function AccountGeneral() {
                 </Typography>
               }
             />
-
-            <RHFSwitch
-              name="isPublic"
-              labelPlacement="start"
-              label="Public Profile"
-              sx={{ mt: 5 }}
-            />
-
-            <Button variant="soft" color="error" sx={{ mt: 3 }}>
-              Delete User
-            </Button>
           </Card>
         </Grid>
 
@@ -151,7 +140,7 @@ export default function AccountGeneral() {
               }}
             >
               <RHFTextField name="displayName" label="Name" />
-              <RHFTextField name="email" label="Email Address" />
+              <RHFTextField name="email" label="Email Address" disabled/>
               <RHFTextField name="phoneNumber" label="Phone Number" />
               <RHFTextField name="address" label="Address" />
 

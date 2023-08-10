@@ -24,6 +24,9 @@ const slice = createSlice({
     addToUsers: (state, action) => {
       state.users.push(action.payload)
     },
+    updateCurrentUser: (state, action) => {
+      state.currentUser = action.payload
+    },
     deleteToUsers: (state, action) => {
       state.users = state.users.filter(x => x.id === action.payload)
     }
@@ -38,5 +41,6 @@ export const {
   initUser,
   resetUser,
   addToUsers,
+  updateCurrentUser,
   deleteToUsers
 } = slice.actions

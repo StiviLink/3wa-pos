@@ -5,7 +5,8 @@ import {
   initUser,
   resetUser,
   deleteToUsers,
-  addToUsers
+  addToUsers,
+  updateCurrentUser
 } from 'src/redux/slice/user'
 
 // ----------------------------------------------------------------------
@@ -51,6 +52,13 @@ export default function useUser() {
     [dispatch]
   )
 
+  const onUpdateCurrentUser = useCallback(
+    (user) => {
+      dispatch(updateCurrentUser(user))
+    },
+    [dispatch]
+  )
+
   const onDeleteToUsers = useCallback(
     (id) => {
       dispatch(deleteToUsers(id))
@@ -65,6 +73,7 @@ export default function useUser() {
     onInitUser,
     onResetUser,
     onAddToUsers,
+    onUpdateCurrentUser,
     onDeleteToUsers
   }
 }

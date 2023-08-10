@@ -68,7 +68,6 @@ const sendMail = async (email:string) => {
                         Subject: "Reçu du " + new Date().toLocaleString("fr-FR")
                     }
                 }
-                console.log("data", data)
                 try{
                     const axiosResponse = await axiosMailSend(data)
                     console.log('axiosResponse', axiosResponse)
