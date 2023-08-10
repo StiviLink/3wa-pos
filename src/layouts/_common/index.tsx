@@ -1,4 +1,3 @@
-export {default as NotificationsPopover} from './notifications-popover/notifications-popover'
 export {default as Searchbar} from './searchbar/searchbar'
 export {default as AccountPopover} from './account-popover'
 export {default as HeaderShadow} from './header-shadow'
