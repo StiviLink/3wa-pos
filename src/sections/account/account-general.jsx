@@ -1,7 +1,7 @@
-import * as Yup from 'yup';
-import { useCallback } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup'
+import {useCallback} from 'react'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 // @mui
 import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
@@ -10,14 +10,12 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-// hooks
-import { useMockedUser } from 'src/hooks/use-mocked-user';
 // utils
-import { fData } from 'src/utils/format-number';
+import { fData } from 'src/utils/format-number'
 // assets
-import { countries } from 'src/assets/data';
+import { countries } from 'src/assets/data'
 // components
-import Iconify from 'src/components/iconify';
+import Iconify from 'src/components/iconify'
 //import { useSnackbar } from 'src/components/snackbar';
 import FormProvider, {
   RHFSwitch,
@@ -25,13 +23,13 @@ import FormProvider, {
   RHFUploadAvatar,
   RHFAutocomplete,
 } from 'src/components/hook-form';
+//hook
+import useUser from "src/sections/hook/use-user"
 
 // ----------------------------------------------------------------------
 
 export default function AccountGeneral() {
 //  const { enqueueSnackbar } = useSnackbar();
-
-  const { user } = useMockedUser();
 
   const UpdateUserSchema = Yup.object().shape({
     displayName: Yup.string().required('Name is required'),
@@ -46,20 +44,24 @@ export default function AccountGeneral() {
     about: Yup.string().required('About is required'),
     // not required
     isPublic: Yup.boolean(),
-  });
+  })
+
+  const {currentUser} = useUser()
+
+    console.info('currentUser', currentUser)
 
   const defaultValues = {
-    displayName: user?.displayName || '',
-    email: user?.email || '',
-    photoURL: user?.photoURL || null,
-    phoneNumber: user?.phoneNumber || '',
-    country: user?.country || '',
-    address: user?.address || '',
-    state: user?.state || '',
-    city: user?.city || '',
-    zipCode: user?.zipCode || '',
-    about: user?.about || '',
-    isPublic: user?.isPublic || false,
+    displayName: currentUser?.name || '',
+    email: currentUser?.email || '',
+    photoURL: currentUser?.image || null,
+    phoneNumber: currentUser?.phone || '',
+    country: currentUser?.country || '',
+    address: currentUser?.address || '',
+    state: currentUser?.state || '',
+    city: currentUser?.city || '',
+    zipCode: currentUser?.zipCode || '',
+    about: currentUser?.description || '',
+    isPublic: currentUser?.isPublic || false,
   };
 
   const methods = useForm({
@@ -71,7 +73,7 @@ export default function AccountGeneral() {
     setValue,
     handleSubmit,
     formState: { isSubmitting },
-  } = methods;
+  } = methods
 
   const onSubmit = handleSubmit(async (data) => {
     try {
@@ -96,7 +98,7 @@ export default function AccountGeneral() {
       }
     },
     [setValue]
-  );
+  )
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
@@ -197,5 +199,5 @@ export default function AccountGeneral() {
         </Grid>
       </Grid>
     </FormProvider>
-  );
+  )
 }

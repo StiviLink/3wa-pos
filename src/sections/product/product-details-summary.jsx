@@ -40,10 +40,8 @@ export default function ProductDetailsSummary({
     price,
     coverUrl,
     colors,
-    newLabel,
     available,
     priceSale,
-    saleLabel,
     inventoryType,
     subDescription,
   } = product;
@@ -191,13 +189,6 @@ export default function ProductDetailsSummary({
     </Typography>
   )
 
-  const renderLabels = (newLabel.enabled || saleLabel.enabled) && (
-    <Stack direction="row" alignItems="center" spacing={1}>
-      {newLabel.enabled && <Label color="info">{newLabel.content}</Label>}
-      {saleLabel.enabled && <Label color="error">{saleLabel.content}</Label>}
-    </Stack>
-  )
-
   const renderInventoryType = (
     <Box
       component="span"
@@ -217,8 +208,6 @@ export default function ProductDetailsSummary({
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Stack spacing={3} sx={{ pt: 3 }} {...other}>
         <Stack spacing={2} alignItems="flex-start">
-          {renderLabels}
-
           {renderInventoryType}
 
           <Typography variant="h5">{name}</Typography>

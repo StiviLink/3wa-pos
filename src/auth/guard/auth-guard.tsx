@@ -20,12 +20,10 @@ type Props = {
 export default function AuthGuard({ children }: Props) {
   const router = useRouter()
   const { authenticated, method } = useAuthContext()
-  console.log('authenticated', authenticated)
 
   const [checked, setChecked] = useState(false);
 
   const check = useCallback(() => {
-    console.log('authenticated', authenticated)
     if (!authenticated) {
       const searchParams = new URLSearchParams({ returnTo: window.location.pathname }).toString()
 

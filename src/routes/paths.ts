@@ -29,14 +29,7 @@ export const paths = {
     root: ROOTS.DASHBOARD,
     product: {
       root: `${ROOTS.DASHBOARD}/product`,
-      details: (id: string) => `${ROOTS.DASHBOARD}/product/${id}`,
-      edit: (id: string) => `${ROOTS.DASHBOARD}/product/${id}/edit`
-    },
-    invoice: {
-      root: `${ROOTS.DASHBOARD}/invoice`,
-      new: `${ROOTS.DASHBOARD}/invoice/new`,
-      details: (id: string) => `${ROOTS.DASHBOARD}/invoice/${id}`,
-      edit: (id: string) => `${ROOTS.DASHBOARD}/invoice/${id}/edit`
+      details: (id: string) => `${ROOTS.DASHBOARD}/product/${id}`
     },
     order: {
       root: `${ROOTS.DASHBOARD}/order`,

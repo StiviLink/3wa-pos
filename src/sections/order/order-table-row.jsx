@@ -1,25 +1,22 @@
 import { format } from 'date-fns'
 // @mui
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import Collapse from '@mui/material/Collapse';
-import MenuItem from '@mui/material/MenuItem';
-import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
-import TableCell from '@mui/material/TableCell';
-import IconButton from '@mui/material/IconButton';
-import ListItemText from '@mui/material/ListItemText';
+import Box from '@mui/material/Box'
+import Paper from '@mui/material/Paper'
+import Stack from '@mui/material/Stack'
+import Avatar from '@mui/material/Avatar'
+import Collapse from '@mui/material/Collapse'
+import MenuItem from '@mui/material/MenuItem'
+import TableRow from '@mui/material/TableRow'
+import Checkbox from '@mui/material/Checkbox'
+import TableCell from '@mui/material/TableCell'
+import IconButton from '@mui/material/IconButton'
+import ListItemText from '@mui/material/ListItemText'
 // hooks
 import { useBoolean } from '../../hooks/use-boolean'
 // utils
 import { fCurrency } from '../../utils/format-number'
 // components
-import Label from '../../components/label'
 import Iconify from '../../components/iconify'
-import ConfirmDialog from '../../components/custom-dialog'
 import CustomPopover from '../../components/custom-popover/custom-popover'
 import usePopover from '../../components/custom-popover/use-popover'
 
@@ -30,16 +27,13 @@ export default function OrderTableRow({
   row,
   selected,
   onViewRow,
-  onSelectRow,
-  onDeleteRow,
+  onSelectRow
 }) {
-  const { items, status, orderNumber, createdAt, customer, totalQuantity, subTotal } = row;
+  const { items, orderNumber, createdAt, user, quantity, subTotal } = row
 
-  const confirm = useBoolean();
+  const collapse = useBoolean()
 
-  const collapse = useBoolean();
-
-  const popover = usePopover();
+  const popover = usePopover()
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
@@ -62,11 +56,11 @@ export default function OrderTableRow({
       </TableCell>
 
       <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar alt={customer.name} src={customer.avatarUrl} sx={{ mr: 2 }} />
+        <Avatar alt={user.name} src={user.image} sx={{ mr: 2 }} />
 
         <ListItemText
-          primary={customer.name}
-          secondary={customer.email}
+          primary={user.name}
+          secondary={user.email}
           primaryTypographyProps={{ typography: 'body2' }}
           secondaryTypographyProps={{ component: 'span', color: 'text.disabled' }}
         />
@@ -85,23 +79,9 @@ export default function OrderTableRow({
         />
       </TableCell>
 
-      <TableCell align="center"> {totalQuantity} </TableCell>
+      <TableCell align="center"> {quantity} </TableCell>
 
       <TableCell> {fCurrency(subTotal)} </TableCell>
-
-      <TableCell>
-        <Label
-          variant="soft"
-          color={
-            (status === 'completed' && 'success') ||
-            (status === 'pending' && 'warning') ||
-            (status === 'cancelled' && 'error') ||
-            'default'
-          }
-        >
-          {status}
-        </Label>
-      </TableCell>
 
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
         <IconButton
@@ -187,16 +167,6 @@ export default function OrderTableRow({
         arrow="right-top"
         sx={{ width: 140 }}
       >
-        <MenuItem
-          onClick={() => {
-            confirm.onTrue();
-            popover.onClose();
-          }}
-          sx={{ color: 'error.main' }}
-        >
-          <Iconify icon="solar:trash-bin-trash-bold" />
-          Delete
-        </MenuItem>
 
         <MenuItem
           onClick={() => {
@@ -208,18 +178,6 @@ export default function OrderTableRow({
           View
         </MenuItem>
       </CustomPopover>
-
-      <ConfirmDialog
-        open={confirm.value}
-        onClose={confirm.onFalse}
-        title="Delete"
-        content="Are you sure want to delete?"
-        action={
-          <Button variant="contained" color="error" onClick={onDeleteRow}>
-            Delete
-          </Button>
-        }
-      />
     </>
   );
 }

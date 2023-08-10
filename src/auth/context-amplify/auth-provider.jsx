@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useCallback, useMemo } from 'react'
+import {useEffect, useReducer, useCallback, useMemo} from 'react'
 //auth
 import { AuthContext } from './auth-context'
 import auth from "../../api/auth"
@@ -36,22 +36,19 @@ const reducer = (state, action) => {
 
 export function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  //const {currentUser} = useLocalStorage('currentUser', null) //useAuthContext()//await Auth.currentAuthenticatedUser()
   const [sessionUser, setSessionUser, removeCurrentUser] = useSessionStorage('currentUser', null)
 
   const initialize = useCallback(async () => {
     try {
-      const currentUser = auth.currentUser(sessionUser)
-      console.log('currentUser',currentUser)
-
-      if (currentUser) {
+      if (sessionUser) {
+        const currentUser = await auth.currentUser(sessionUser)
         dispatch({
           type: Types.INITIAL,
           payload: {
             user: {
               ...currentUser,
               id: currentUser.id,
-              displayName: `${currentUser.lastname} ${currentUser.firstname}`,
+              idConnexion: currentUser.idConnexion,
               role: currentUser.role,
             }
           }
@@ -83,9 +80,8 @@ export function AuthProvider({ children }) {
 
   // LOGIN
   const login = useCallback(async (email, password) => {
-    console.log(email,password)
-    setSessionUser(auth.signIn(email, password).email)
-    const currentUser = auth.currentUser(sessionUser)
+    setSessionUser(await auth.signIn(email, password))
+    const currentUser = await auth.currentUser(sessionUser)
 
     if(currentUser){
       dispatch({
@@ -94,20 +90,22 @@ export function AuthProvider({ children }) {
           user: {
             ...currentUser,
             id: currentUser.id,
-            displayName: `${currentUser.lastname} ${currentUser.firstname}`,
+            idConnexion: currentUser.idConnexion,
             role: currentUser.role
           }
         }
       })
       await initialize()
     }
-    else
+    else {
       dispatch({
         type: Types.INITIAL,
         payload: {
           user: null
         }
       })
+    }
+    return currentUser
   }, [])
 
   // LOGOUT

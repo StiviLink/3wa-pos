@@ -3,23 +3,16 @@ import { useState, useEffect, useCallback } from 'react'
 // @mui
 import Card from '@mui/material/Card'
 import Table from '@mui/material/Table'
-import Button from '@mui/material/Button'
-import Tooltip from '@mui/material/Tooltip'
 import Container from '@mui/material/Container'
 import TableBody from '@mui/material/TableBody'
-import IconButton from '@mui/material/IconButton'
 import TableContainer from '@mui/material/TableContainer'
 // routes
-import { paths } from '../../../routes/paths'
-import { useRouter } from '../../../routes/hook'
-// hooks
-import { useBoolean } from '../../../hooks/use-boolean'
+import { paths } from 'src/routes/paths'
+import { useRouter } from 'src/routes/hook'
 // _mock
-import { PRODUCT_STOCK_OPTIONS } from '../../../_mock/_product'
-// api
-import { getAllProducts } from '../../../api/product'
+import { PRODUCT_STOCK_OPTIONS } from 'src/_mock/_product'
 // components
-import { useSettingsContext } from '../../../components/settings/context/settings-context'
+import { useSettingsContext } from 'src/components/settings/context/settings-context'
 import {
   useTable,
   getComparator,
@@ -28,17 +21,15 @@ import {
   TableSkeleton,
   TableEmptyRows,
   TableHeadCustom,
-  TableSelectedAction,
   TablePaginationCustom,
-} from '../../../components/table'
-import Iconify from '../../../components/iconify'
-import Scrollbar from '../../../components/scrollbar'
-import ConfirmDialog from '../../../components/custom-dialog'
-import CustomBreadcrumbs from '../../../components/custom-breadcrumbs'
+} from 'src/components/table'
+import Scrollbar from 'src/components/scrollbar'
+import CustomBreadcrumbs from 'src/components/custom-breadcrumbs'
 //
 import ProductTableRow from '../product-table-row';
 import ProductTableToolbar from '../product-table-toolbar';
 import ProductTableFiltersResult from '../product-table-filters-result';
+import useProducts from "../../hook/use-products";
 
 // ----------------------------------------------------------------------
 
@@ -49,18 +40,18 @@ const TABLE_HEAD = [
   { id: 'price', label: 'Price', width: 140 },
   { id: 'publish', label: 'Publish', width: 110 },
   { id: '', width: 88 },
-];
+]
 
 const PUBLISH_OPTIONS = [
   { value: 'published', label: 'Published' },
   { value: 'draft', label: 'Draft' },
-];
+]
 
 const defaultFilters = {
   name: '',
   publish: [],
   stock: [],
-};
+}
 
 // ----------------------------------------------------------------------
 
@@ -75,36 +66,32 @@ export default function ProductListView() {
 
   const [filters, setFilters] = useState(defaultFilters)
 
+  const {allProducts} = useProducts()
+
   const { products, productsLoading, productsEmpty } = {
-    products: getAllProducts,
+    products: allProducts,
     productLoading: false,
     productsEmpty: false
   }
-
-  const confirm = useBoolean();
 
   useEffect(() => {
     if (products.length) {
       setTableData(products);
     }
-  }, [products]);
+  }, [products])
+  useEffect(() => console.info('allProducts[0] images', allProducts[0].images), [allProducts])
 
   const dataFiltered = applyFilter({
     inputData: tableData,
     comparator: getComparator(table.order, table.orderBy),
     filters,
-  });
+  })
 
-  const dataInPage = dataFiltered.slice(
-    table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage
-  );
+  const denseHeight = table.dense ? 60 : 80
 
-  const denseHeight = table.dense ? 60 : 80;
+  const canReset = !isEqual(defaultFilters, filters)
 
-  const canReset = !isEqual(defaultFilters, filters);
-
-  const notFound = (!dataFiltered.length && canReset) || productsEmpty;
+  const notFound = (!dataFiltered.length && canReset) || productsEmpty
 
   const handleFilters = useCallback(
     (name, value) => {
@@ -115,46 +102,18 @@ export default function ProductListView() {
       }));
     },
     [table]
-  );
-
-  const handleDeleteRow = useCallback(
-    (id) => {
-      const deleteRow = tableData.filter((row) => row.id !== id);
-      setTableData(deleteRow);
-
-      table.onUpdatePageDeleteRow(dataInPage.length);
-    },
-    [dataInPage.length, table, tableData]
-  );
-
-  const handleDeleteRows = useCallback(() => {
-    const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
-    setTableData(deleteRows);
-
-    table.onUpdatePageDeleteRows({
-      totalRows: tableData.length,
-      totalRowsInPage: dataInPage.length,
-      totalRowsFiltered: dataFiltered.length,
-    });
-  }, [dataFiltered.length, dataInPage.length, table, tableData]);
-
-  const handleEditRow = useCallback(
-    (id) => {
-      router.push(paths.dashboard.product.edit(id));
-    },
-    [router]
-  );
+  )
 
   const handleViewRow = useCallback(
     (id) => {
       router.push(paths.dashboard.product.details(id));
     },
     [router]
-  );
+  )
 
   const handleResetFilters = useCallback(() => {
-    setFilters(defaultFilters);
-  }, []);
+    setFilters(defaultFilters)
+  }, [])
 
   return (
     <>
@@ -194,24 +153,6 @@ export default function ProductListView() {
           )}
 
           <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
-            <TableSelectedAction
-              dense={table.dense}
-              numSelected={table.selected.length}
-              rowCount={tableData.length}
-              onSelectAllRows={(checked) =>
-                table.onSelectAllRows(
-                  checked,
-                  tableData.map((row) => row.id)
-                )
-              }
-              action={
-                <Tooltip title="Delete">
-                  <IconButton color="primary" onClick={confirm.onTrue}>
-                    <Iconify icon="solar:trash-bin-trash-bold" />
-                  </IconButton>
-                </Tooltip>
-              }
-            />
 
             <Scrollbar>
               <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
@@ -248,8 +189,6 @@ export default function ProductListView() {
                             row={row}
                             selected={table.selected.includes(row.id)}
                             onSelectRow={() => table.onSelectRow(row.id)}
-                            onDeleteRow={() => handleDeleteRow(row.id)}
-                            onEditRow={() => handleEditRow(row.id)}
                             onViewRow={() => handleViewRow(row.id)}
                           />
                         ))}
@@ -279,29 +218,6 @@ export default function ProductListView() {
           />
         </Card>
       </Container>
-
-      <ConfirmDialog
-        open={confirm.value}
-        onClose={confirm.onFalse}
-        title="Delete"
-        content={
-          <>
-            Are you sure want to delete <strong> {table.selected.length} </strong> items?
-          </>
-        }
-        action={
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => {
-              handleDeleteRows();
-              confirm.onFalse();
-            }}
-          >
-            Delete
-          </Button>
-        }
-      />
     </>
   );
 }
@@ -332,7 +248,16 @@ function applyFilter({
   }
 
   if (stock.length) {
-    inputData = inputData.filter((product) => stock.includes(product.inventoryType));
+    inputData = inputData.filter((product) => {
+      const productStock = PRODUCT_STOCK_OPTIONS.filter(x => stock.includes(x.value))
+      let result = false
+      for(const pStock of productStock){
+        if (pStock.min && pStock.max && !result) result = product.available > pStock.min && product.available < pStock.max
+        else if (pStock.min && !result) result = product.available > pStock.min
+        else if (pStock.max && !result) result = product.available < pStock.max
+      }
+      return result
+    });
   }
 
   if (publish.length) {

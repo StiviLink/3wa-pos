@@ -31,13 +31,15 @@ import FormProvider, {
 } from 'src/components/hook-form'
 //hook
 import {convertImageToBase64} from "../hook"
+import useUser from "../hook/use-user"
 //api
 import {getUserByEmail, createUser} from "src/api/user"
 import {USER_ROLES_OPTIONS} from "../../_mock/_user"
 
 // ----------------------------------------------------------------------
 export default function UserNewEditForm({ currentUser }) {
-  const router = useRouter(), [base64, setBase64] = useState('')
+  const router = useRouter(), [base64, setBase64] = useState(''),
+      {onAddToUsers} = useUser()
 
   const NewUserSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -49,7 +51,7 @@ export default function UserNewEditForm({ currentUser }) {
     city: Yup.string().required('City is required'),
     role: Yup.string().required('Role is required'),
     zipCode: Yup.string().required('Zip code is required'),
-    avatarUrl: Yup.mixed().nullable().required('Avatar is required'),
+    avatarUrl: Yup.mixed().nullable(),
     // not required
     status: Yup.string(),
     isVerified: Yup.boolean(),
@@ -97,6 +99,8 @@ export default function UserNewEditForm({ currentUser }) {
         console.info('verifyUser', verifyUser)
         if(!verifyUser){
             await createUser(data)
+            data.status = data.isVerified ? 'active' : 'pending'
+            onAddToUsers(data)
             reset()
             router.push(paths.dashboard.user.list)
         }

@@ -42,7 +42,9 @@ import UserTableRow from '../user-table-row'
 import UserTableToolbar from '../user-table-toolbar'
 import UserTableFiltersResult from '../user-table-filters-result'
 //api
-import {getAllUsers, deleteUser} from "src/api/user"
+import {deleteUser} from "src/api/user"
+//hook
+import useUser from "src/sections/hook/use-user"
 
 // ----------------------------------------------------------------------
 
@@ -62,12 +64,15 @@ const defaultFilters = {
   status: 'all',
 }
 
-const users = await getAllUsers()
-console.info('users', users)
-
 // ----------------------------------------------------------------------
 
 export default function UserListView() {
+
+  const {allUsers, onDeleteToUsers} = useUser()
+  const users = allUsers
+
+  console.info('allUsers', allUsers)
+
   const table = useTable()
 
   const settings = useSettingsContext();
@@ -111,6 +116,8 @@ export default function UserListView() {
   const handleDeleteRow = useCallback(
     async (id) => {
       await deleteUser(id)
+
+      onDeleteToUsers(id)
 
       const deleteRow = tableData.filter((row) => row.id !== id)
       setTableData(deleteRow)

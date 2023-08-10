@@ -14,8 +14,6 @@ import Scrollbar from '../../components/scrollbar';
 
 export default function OrderDetailsItems({
   items,
-  shipping,
-  discount,
   taxes,
   subTotal,
   totalAmount,
@@ -29,30 +27,6 @@ export default function OrderDetailsItems({
       <Stack direction="row">
         <Box sx={{ color: 'text.secondary' }}>Subtotal</Box>
         <Box sx={{ width: 160, typography: 'subtitle2' }}>{fCurrency(subTotal) || '-'}</Box>
-      </Stack>
-
-      <Stack direction="row">
-        <Box sx={{ color: 'text.secondary' }}>Shipping</Box>
-        <Box
-          sx={{
-            width: 160,
-            ...(shipping && { color: 'error.main' }),
-          }}
-        >
-          {shipping ? `- ${fCurrency(shipping)}` : '-'}
-        </Box>
-      </Stack>
-
-      <Stack direction="row">
-        <Box sx={{ color: 'text.secondary' }}>Discount</Box>
-        <Box
-          sx={{
-            width: 160,
-            ...(discount && { color: 'error.main' }),
-          }}
-        >
-          {discount ? `- ${fCurrency(discount)}` : '-'}
-        </Box>
       </Stack>
 
       <Stack direction="row">

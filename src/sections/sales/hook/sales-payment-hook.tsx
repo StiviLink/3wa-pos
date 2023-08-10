@@ -4,13 +4,24 @@ import {useNavigate} from "react-router-dom"
 //redux
 import {AnyAction} from "redux"
 //component
-import Iconify from "../../../components/iconify"
-import {addToMoney, deleteMoney} from "../../../redux/slice/checkout"
-import {paths} from "../../../routes/paths";
+import Iconify from "src/components/iconify"
+import {addToMoney, deleteMoney} from "src/redux/slice/checkout"
+//api
+import {getUserByEmail, updateUser} from "src/api/user"
+import {createOrder, getAllOrders} from "src/api/order"
+import {getProductByID} from "src/api/product"
+//hook
+import useOrders from "../../hook/use-orders"
+// routes
+import {paths} from "src/routes/paths"
+import { useRouter } from 'src/routes/hook'
+
+
 export const TopContent = () => {
+    const router = useRouter()
     return (
         <div className="wcp-top-content">
-            <div className="wcptc-button">
+            <div className="wcptc-button" onClick={() => router.push(paths.dashboard.sales.point)}>
                 <span className="wcptcb-text">{"<<"} Retour</span>
             </div>
             <div className="wcptc-center">
@@ -68,11 +79,44 @@ const PaymentMethodContainer = (props:PmcProps) => {
         </div>
     )
 }
+const validPayment = async (cart:any) => {
+    const currentUser = sessionStorage.getItem('currentUser'),
+        user = currentUser ? await getUserByEmail(JSON.parse(currentUser).email) : {},
+        products = []
+    for(const product of cart) {
+        products.push({idProduct: product.id, quantity: product.quantity})
+    }
+    const allOrders = await getAllOrders()
+    const orderCreated = await createOrder({number: allOrders.length+1, products,
+        user: {idUser: user.id, name: user.name, email: user.email, image: user.image}})
+    user.ordersIds.push(orderCreated.id)
+    user.idUser = user.id
+    await updateUser(user)
+    const num = orderCreated.number
+    orderCreated.orderNumber = `#inv-${num<10 ? "00" : num<100 ? "0" : ""}${num}`
+    orderCreated.items = []
+    orderCreated.subTotal = 0
+    orderCreated.quantity = orderCreated.products.reduce((acc:any, curr: any) => acc + curr.quantity, 0)
+    for(const prod of orderCreated.products){
+        const product = await getProductByID(prod.idProduct)
+        orderCreated.items.push({id: product.id, coverUrl: product.images[0], price: product.price,
+            name: product.name, sku: product.sku, quantity: prod.quantity})
+        orderCreated.subTotal += prod.quantity*product.price
+    }
+    return orderCreated
+}
 const LeftContent = (props:Props) => {
     const {checkout, dispatch} = props,
         {total, subTotal, money, paymentMethod} = checkout, navigate = useNavigate()
+    const {onAddOrder} = useOrders()
     const onClickValid = () => {
-        if(total>=subTotal) navigate(paths.sales.invoice)
+        if(total>=subTotal) {
+            validPayment(checkout.cart).then((res) => {
+                onAddOrder(res)
+                navigate(paths.sales.invoice)
+                //dispatch(resetCart())
+            })
+        }
     }
     return (
         <div className="wcp-left-content">

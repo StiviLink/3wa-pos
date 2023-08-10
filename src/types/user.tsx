@@ -10,5 +10,6 @@ export default interface User {
     isVerified?: boolean,
     addressIds?: string[],
     ordersIds?: string[],
-    password?: string
+    password?: string,
+    idConnexion?: string
 }

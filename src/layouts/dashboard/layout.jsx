@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import { useBoolean } from '../../hooks/use-boolean'
 import { useResponsive } from '../../hooks/use-responsive'
 // components
-import { useSettingsContext } from '../../components/settings/context/settings-context'
+import { useSettingsContext } from 'src/components/settings/context/settings-context'
 //
 import Main from './main';
 import Header from './header';

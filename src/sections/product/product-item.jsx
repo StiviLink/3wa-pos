@@ -13,16 +13,15 @@ import { fCurrency } from '../../utils/format-number'
 import { useDispatch } from '../../redux/store'
 import { addToCart } from '../../redux/slice/checkout'
 // components
-import Label from '../../components/label';
-import Image from '../../components/image';
-import Iconify from '../../components/iconify';
-import ColorPreview from '../../components/color-utils/color-preview';
+import Image from '../../components/image'
+import Iconify from '../../components/iconify'
+import ColorPreview from '../../components/color-utils/color-preview'
 
 // ----------------------------------------------------------------------
 
 export default function ProductItem({ product, addCart }) {
-  const { id, name, coverUrl, price, colors, available, sizes, priceSale, newLabel, saleLabel } =
-    product;
+  const { id, name, images, price, colors, available, sizes, priceSale } =
+    product, coverUrl = images[0]
 
   const dispatch = useDispatch()
 
@@ -45,26 +44,6 @@ export default function ProductItem({ product, addCart }) {
       console.error(error)
     }
   }
-
-  const renderLabels = (newLabel.enabled || saleLabel.enabled) && (
-    <Stack
-      direction="row"
-      alignItems="center"
-      spacing={1}
-      sx={{ position: 'absolute', zIndex: 9, top: 16, right: 16 }}
-    >
-      {newLabel.enabled && (
-        <Label variant="filled" color="info">
-          {newLabel.content}
-        </Label>
-      )}
-      {saleLabel.enabled && (
-        <Label variant="filled" color="error">
-          {saleLabel.content}
-        </Label>
-      )}
-    </Stack>
-  );
 
   const renderImg = (
     <Box sx={{ position: 'relative', p: 1 }}>
@@ -93,7 +72,7 @@ export default function ProductItem({ product, addCart }) {
 
       <Image alt={name} src={coverUrl} ratio="1/1" sx={{ borderRadius: 1.5 }} />
     </Box>
-  );
+  )
 
   const renderContent = (
     <Stack spacing={2.5} sx={{ p: 3, pt: 2 }}>
@@ -125,8 +104,6 @@ export default function ProductItem({ product, addCart }) {
         },
       }}
     >
-      {renderLabels}
-
       {renderImg}
 
       {renderContent}

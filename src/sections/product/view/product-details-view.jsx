@@ -10,8 +10,6 @@ import Container from '@mui/material/Container'
 import Grid from '@mui/material/Unstable_Grid2'
 // _mock
 import { PRODUCT_PUBLISH_OPTIONS } from 'src/_mock/_product'
-//api
-import {getProductByID} from "src/api/product"
 // routes
 import { paths } from 'src/routes/paths'
 import { useParams } from 'src/routes/hook/use-params'
@@ -22,6 +20,7 @@ import EmptyContent from 'src/components/empty-content'
 import { useSettingsContext } from 'src/components/settings/context/settings-context'
 //
 import useCheckout from '../hooks/use-checkout'
+import useProducts from "../../hook/use-products"
 import { ProductDetailsSkeleton } from '../product-skeleton'
 import ProductDetailsSummary from '../product-details-summary'
 import ProductDetailsToolbar from '../product-details-toolbar'
@@ -33,6 +32,8 @@ import ProductDetailsDescription from '../product-details-description'
 // ----------------------------------------------------------------------
 
 export default function ProductDetailsView() {
+  const {allProducts} = useProducts()
+
   const params = useParams()
 
   const { id } = params
@@ -40,7 +41,8 @@ export default function ProductDetailsView() {
   const productError = undefined, productLoading = undefined
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  const product = getProductByID(id)
+  const product = allProducts.find(x => x.id === id)
+    console.info('ProductDetailsView product ', product)
 
   const settings = useSettingsContext()
 
@@ -88,8 +90,6 @@ export default function ProductDetailsView() {
     <>
       <ProductDetailsToolbar
           backLink={paths.dashboard.product.root}
-          editLink={paths.dashboard.product.edit(`${product?.id}`)}
-          liveLink={paths.dashboard.product.details(`${product?.id}`)}
           publish={publish || ''}
           onChangePublish={handleChangePublish}
           publishOptions={PRODUCT_PUBLISH_OPTIONS} sx={undefined}      />

@@ -11,13 +11,13 @@ import Typography from '@mui/material/Typography'
 // routes
 import { paths } from 'src/routes/paths'
 import { useRouter } from 'src/routes/hook/use-router'
-// hooks
-import { useMockedUser } from '../../hooks/use-mocked-user'
 // auth
-import { useAuthContext } from '../../auth/hooks/use-auth-context'
+import { useAuthContext } from 'src/auth/hooks/use-auth-context'
 // components
 import { varHover } from '../../components/animate'
 import CustomPopover, { usePopover } from '../../components/custom-popover'
+//hook
+import useUser from "src/sections/hook/use-user"
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +37,10 @@ const OPTIONS = [
 export default function AccountPopover() {
   const router = useRouter()
 
-  const { user } = useMockedUser()
+  const {currentUser} = useUser()
+
+    console.info('currentUser', currentUser)
+    if(!currentUser.email) router.reload()
 
   const { logout } = useAuthContext()
 
@@ -45,9 +48,9 @@ export default function AccountPopover() {
 
   const handleLogout = async () => {
     try {
-      await logout()
-      popover.onClose()
-      router.reload()
+        await logout()
+        popover.onClose()
+        router.reload()
     }
     catch (error) {
       console.error(error)
@@ -78,8 +81,8 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={user?.photoURL}
-          alt={user?.displayName}
+          src={currentUser?.image}
+          alt={currentUser?.name}
           sx={{
             width: 36,
             height: 36,
@@ -91,11 +94,11 @@ export default function AccountPopover() {
       <CustomPopover open={popover.open} onClose={popover.onClose} sx={{ width: 200, p: 0 }}>
         <Box sx={{ p: 2, pb: 1.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {user?.displayName}
+            {currentUser?.name}
           </Typography>
 
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {user?.email}
+            {currentUser?.email}
           </Typography>
         </Box>
 

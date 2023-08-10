@@ -7,23 +7,15 @@ import {StateProps, onChangeHook, emptySale, SalesLine, SalesSummary, PaiementMo
 //Style
 import "./style/sales-point-keyboard.css"
 //redux
-//import {resetCart} from "src/redux/slice/checkout"
 import {useSelector, useDispatch} from "src/redux/store"
 
 export default function SalesPointKeyboard(){
     let keyboard : KeyboardReactInterface
     const checkout = useSelector((state:any) => state.checkout), cart = checkout.cart, dispatch = useDispatch(),
         subTotal = checkout.subTotal, select = cart.find((x:any) => x.selected), input = `${select?select.quantity??"":""}`
-    /*
-    useEffect(() => {
-        dispatch(resetCart())
-    }, [])
-     */
 
     const [state, setState] = useState({input, lines: cart,
         total: `${subTotal ? subTotal.toFixed(2) : 0}`} as StateProps)
-    useEffect(() => console.log('cart', cart), [cart])
-    useEffect(() => console.log('subTotal', subTotal), [subTotal])
     useEffect(() => setState(state => {return {...state, input, lines: cart,
         total: subTotal ? subTotal.toFixed(2):0}}), [cart, input, subTotal])
 

@@ -10,7 +10,9 @@ import {resetCart} from "src/redux/slice/checkout"
 import {paths} from "src/routes/paths"
 //hook
 import {htmlStringToPdf, axiosMailSend} from "../../hook"
-import Logo from "../../../components/logo/logo";
+import useUser from "../../hook/use-user"
+//
+import Logo from "../../../components/logo/logo"
 
 interface Props {
     checkout: any
@@ -35,7 +37,6 @@ const printClick = async () => {
 }
 const sendMail = async (email:string) => {
     const failed = document.getElementById("failed")
-    console.log('sendMail email', email)
     if(failed){
         if(!email.match('@.*.[.]..*$')) {
             failed.style.color = '#a85959'
@@ -116,6 +117,7 @@ const DvActions = () => {
 const DvContainer = (props: Props) => {
     const {checkout} = props
     const {cart, subTotal, total, paymentMethod} = checkout
+    const {currentUser} = useUser()
     return(
         <div className="wsc-rsc-dv-container" >
             <div className="wsc-rsc-dvc-receipt"  id="receipt"
@@ -125,13 +127,11 @@ const DvContainer = (props: Props) => {
                 <Logo sx={{width: '50%',display: 'block', margin: '0 auto'}} />
                 <br/>
                 <div className="wsc-rsc-dvc-receipt-contact" style={{textAlign: 'center', fontSize: '75%'}}>
-                    <div>null</div>
-                    <div>TVA:FR18837947209</div>
-                    <div>nulldl@yopmail.fr</div>
-                    <div>https://yopmail.fr</div>
+                    <div>{currentUser.name}</div>
+                    <div>{currentUser.email}</div>
                     <div>
                         <div>--------------------------------</div>
-                        <div>Servi par null fff</div>
+                        <div>Servi par {currentUser.name}</div>
                     </div>
                 </div>
                 <br/>
@@ -179,18 +179,13 @@ const DvContainer = (props: Props) => {
                     </div>
                 </div>
                 <br/>
-                <div>20% G<span className="wsc-rsc-dvc-receipt-right" style={{float: 'right'}}>3,00</span></div>
-                <div className="wsc-rsc-dvc-receipt-taxes">
-                    Total des taxes
-                    <span className="wsc-rsc-dvc-receipt-right"  style={{float: 'right'}}>3,00 €</span>
-                </div>
                 <div className="wsc-rsc-dvc-before-footer"></div>
                 <div className="wsc-rsc-dvc-after-footer"></div>
                 <br/>
                 <br/>
                 <div className="wsc-rsc-dvc-receipt-order" style={{textAlign: 'center'}}>
-                    <div>Commande 00009-002-0001</div>
-                    <div>03/08/2023 09:35:04</div>
+                    <div>Commande {currentUser.ordersIds[currentUser.ordersIds.length-1]}</div>
+                    <div>{new Date().toLocaleString()}</div>
                 </div>
             </div>
         </div>

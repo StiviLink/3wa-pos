@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react'
 // auth
 import { GuestGuard } from 'src/auth/guard'
 // components
-import { SplashScreen } from 'src/components/loading-screen'
+import {LoadingScreen} from 'src/components/loading-screen'
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ const authLogin = {
   path: 'login',
   element: (
       <GuestGuard>
-          <Suspense fallback={<SplashScreen />}>
+          <Suspense fallback={<LoadingScreen />}>
               <LoginPage />
           </Suspense>
       </GuestGuard>

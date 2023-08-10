@@ -1,15 +1,13 @@
 // @mui
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
 // routes
 import RouterLink from '../../routes/components/router-link'
 // utils
 import { fDateTime } from '../../utils/format-time'
 // components
-import Label from '../../components/label'
 import Iconify from '../../components/iconify'
 import CustomPopover from '../../components/custom-popover/custom-popover'
 import usePopover from '../../components/custom-popover/use-popover'
@@ -17,12 +15,9 @@ import usePopover from '../../components/custom-popover/use-popover'
 // ----------------------------------------------------------------------
 
 export default function OrderDetailsToolbar({
-  status,
   backLink,
   createdAt,
-  orderNumber,
-  statusOptions,
-  onChangeStatus,
+  orderNumber
 }) {
   const popover = usePopover();
 
@@ -43,17 +38,6 @@ export default function OrderDetailsToolbar({
           <Stack spacing={0.5}>
             <Stack spacing={1} direction="row" alignItems="center">
               <Typography variant="h4"> Order {orderNumber} </Typography>
-              <Label
-                variant="soft"
-                color={
-                  (status === 'completed' && 'success') ||
-                  (status === 'pending' && 'warning') ||
-                  (status === 'cancelled' && 'error') ||
-                  'default'
-                }
-              >
-                {status}
-              </Label>
             </Stack>
 
             <Typography variant="body2" sx={{ color: 'text.disabled' }}>
@@ -69,15 +53,6 @@ export default function OrderDetailsToolbar({
           alignItems="center"
           justifyContent="flex-end"
         >
-          <Button
-            color="inherit"
-            variant="outlined"
-            endIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
-            onClick={popover.onOpen}
-            sx={{ textTransform: 'capitalize' }}
-          >
-            {status}
-          </Button>
 
           <Button
             color="inherit"
@@ -85,10 +60,6 @@ export default function OrderDetailsToolbar({
             startIcon={<Iconify icon="solar:printer-minimalistic-bold" />}
           >
             Print
-          </Button>
-
-          <Button color="inherit" variant="contained" startIcon={<Iconify icon="solar:pen-bold" />}>
-            Edit
           </Button>
         </Stack>
       </Stack>
@@ -99,18 +70,6 @@ export default function OrderDetailsToolbar({
         arrow="top-right"
         sx={{ width: 140 }}
       >
-        {statusOptions.map((option) => (
-          <MenuItem
-            key={option.value}
-            selected={option.value === status}
-            onClick={() => {
-              popover.onClose();
-              onChangeStatus(option.value);
-            }}
-          >
-            {option.label}
-          </MenuItem>
-        ))}
       </CustomPopover>
     </>
   )

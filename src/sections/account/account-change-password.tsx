@@ -9,12 +9,18 @@ import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 // hooks
 import { useBoolean } from 'src/hooks/use-boolean'
+import {hashPassword, verifyPassword} from 'src/hooks/use-bcrypt'
 // components
 import Iconify from 'src/components/iconify'
 //import { useSnackbar } from 'src/components/snackbar';
 import FormProvider, { RHFTextField } from 'src/components/hook-form'
+//api
+import {getUserByEmail, updateUser} from "src/api/user"
 
 // ----------------------------------------------------------------------
+
+const currentUser = sessionStorage.getItem('currentUser'),
+    user = currentUser ? await getUserByEmail(JSON.parse(currentUser).email) : {}
 
 export default function AccountChangePassword() {
 //  const { enqueueSnackbar } = useSnackbar();
@@ -22,10 +28,15 @@ export default function AccountChangePassword() {
   const password = useBoolean();
 
   const ChangePassWordSchema = Yup.object().shape({
-    oldPassword: Yup.string().required('Old Password is required'),
+    oldPassword: Yup.string().required('Old Password is required')
+        .test(
+            'no-match',
+            'The old password must not correspond',
+            (value) => verifyPassword(value, user.password)
+        ),
     newPassword: Yup.string()
       .required('New Password is required')
-      .min(6, 'Password must be at least 6 characters')
+      .min(8, 'Password must be at least 8 characters')
       .test(
         'no-match',
         'New password must be different than old password',
@@ -53,12 +64,14 @@ export default function AccountChangePassword() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
+        if(verifyPassword(data.oldPassword,user.password)){
+            const hash = hashPassword(data.newPassword)
+            console.info('update user',await updateUser({...user, idUser: user.id, password: hash}))
+            reset()
+        }
       //enqueueSnackbar('Update success!');
-      console.info('DATA', data);
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   });
 
@@ -97,7 +110,7 @@ export default function AccountChangePassword() {
           helperText={
             <Stack component="span" direction="row" alignItems="center">
               <Iconify icon="eva:info-fill" width={16} sx={{ mr: 0.5 }} /> Password must be minimum
-              6+
+              8+
             </Stack>
           }
         />
