@@ -66,7 +66,7 @@ export default function ProductDetailsCarousel({ product }) {
 
   const slides = product.images.map((img) => ({
     src: img,
-  }));
+  }))
 
   const lightbox = useLightBox(slides);
 
@@ -74,7 +74,7 @@ export default function ProductDetailsCarousel({ product }) {
     rtl: false,
     draggable: false,
     adaptiveHeight: true,
-  });
+  })
 
   const carouselThumb = useCarousel({
     rtl: false,
@@ -84,18 +84,12 @@ export default function ProductDetailsCarousel({ product }) {
     variableWidth: true,
     centerPadding: '0px',
     slidesToShow: slides.length > 3 ? 3 : slides.length,
-  });
+  })
 
   useEffect(() => {
     carouselLarge.onSetNav();
     carouselThumb.onSetNav();
   }, [carouselLarge, carouselThumb]);
-
-  useEffect(() => {
-    if (lightbox.open) {
-      carouselLarge.onTogo(lightbox.selected);
-    }
-  }, [carouselLarge, lightbox.open, lightbox.selected]);
 
   const renderLargeImg = (
     <Box
@@ -117,8 +111,6 @@ export default function ProductDetailsCarousel({ product }) {
             alt={slide.src}
             src={slide.src}
             ratio="1/1"
-            onClick={() => lightbox.onOpen(slide.src)}
-            sx={{ cursor: 'zoom-in' }}
           />
         ))}
       </Carousel>

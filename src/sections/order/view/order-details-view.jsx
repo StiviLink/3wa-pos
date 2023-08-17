@@ -1,38 +1,32 @@
-import { useState, useCallback } from 'react';
 // @mui
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 // routes
-import { paths } from '../../../routes/paths';
-// _mock
-import { _orders, ORDER_STATUS_OPTIONS } from '../../../_mock/_order'
+import { paths } from 'src/routes/paths'
 // components
 import { useParams } from '../../../routes/hook/use-params';
 import { useSettingsContext } from '../../../components/settings/context/settings-context';
 //
-import OrderDetailsInfo from '../order-details-info';
-import OrderDetailsItems from '../order-details-item';
-import OrderDetailsToolbar from '../order-details-toolbar';
-import OrderDetailsHistory from '../order-details-history';
+import OrderDetailsInfo from '../order-details-info'
+import OrderDetailsItems from '../order-details-item'
+import OrderDetailsToolbar from '../order-details-toolbar'
+import useOrders from "../../hook/use-orders";
 
 // ----------------------------------------------------------------------
 
 export default function OrderDetailsView() {
-  const settings = useSettingsContext();
+  const settings = useSettingsContext()
 
-  const params = useParams();
+  const {allOrders} = useOrders()
 
-  const { id } = params;
+  const params = useParams()
 
-  //.filter((order) => order.id === id)
-  const currentOrder = _orders[0];
+  const { id } = params
 
-  const [status, setStatus] = useState(currentOrder.status);
+  const currentOrder = allOrders.find(x => id === x.id)
 
-  const handleChangeStatus = useCallback((newValue) => {
-    setStatus(newValue);
-  }, []);
+  console.info('currentOrder', currentOrder)
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
@@ -40,9 +34,6 @@ export default function OrderDetailsView() {
         backLink={paths.dashboard.order.root}
         orderNumber={currentOrder.orderNumber}
         createdAt={currentOrder.createdAt}
-        status={status}
-        onChangeStatus={handleChangeStatus}
-        statusOptions={ORDER_STATUS_OPTIONS}
       />
 
       <Grid container spacing={3}>
@@ -50,23 +41,16 @@ export default function OrderDetailsView() {
           <Stack spacing={3} direction={{ xs: 'column-reverse', md: 'column' }}>
             <OrderDetailsItems
               items={currentOrder.items}
-              taxes={currentOrder.taxes}
-              shipping={currentOrder.shipping}
-              discount={currentOrder.discount}
+              taxes={currentOrder.taxes??0}
               subTotal={currentOrder.subTotal}
-              totalAmount={currentOrder.totalAmount}
+              totalAmount={currentOrder.subTotal}
             />
-
-            <OrderDetailsHistory history={currentOrder.history} />
           </Stack>
         </Grid>
 
         <Grid xs={12} md={4}>
           <OrderDetailsInfo
-            customer={currentOrder.customer}
-            delivery={currentOrder.delivery}
-            payment={currentOrder.payment}
-            shippingAddress={currentOrder.shippingAddress}
+            user={currentOrder.user}
           />
         </Grid>
       </Grid>

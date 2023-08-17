@@ -6,10 +6,15 @@ import {AuthGuard} from "../../auth/guard"
 import DashboardLayout from 'src/layouts/dashboard'
 // components
 import { LoadingScreen } from 'src/components/loading-screen'
+import {getUserByEmail} from "../../api/user";
 
 // ----------------------------------------------------------------------
-//SALES
+// SALES
 const SalesPointPage = lazy(() => import('src/pages/dashboard/sales/point'))
+// USER
+const UserListPage = lazy(() => import('src/pages/dashboard/user/list'))
+const UserCreatePage = lazy(() => import('src/pages/dashboard/user/create'))
+const UserAccountPage = lazy(() => import('src/pages/dashboard/user/account'))
 // PRODUCT
 const ProductDetailsPage = lazy(() => import('src/pages/dashboard/product/details'))
 const ProductListPage = lazy(() => import('src/pages/dashboard/product/list'))
@@ -17,12 +22,10 @@ const ProductShopPage = lazy(() => import('src/pages/dashboard/product/shop'))
 // ORDER
 const OrderListPage = lazy(() => import('src/pages/dashboard/order/list'))
 const OrderDetailsPage = lazy(() => import('src/pages/dashboard/order/details'))
-// INVOICE
-const InvoiceListPage = lazy(() => import('src/pages/dashboard/invoice/list'))
-const InvoiceDetailsPage = lazy(() => import('src/pages/dashboard/invoice/details'))
-const InvoiceCreatePage = lazy(() => import('src/pages/dashboard/invoice/new'))
-const InvoiceEditPage = lazy(() => import('src/pages/dashboard/invoice/edit'))
 
+
+const currentUser = sessionStorage.getItem('currentUser'),
+    user = currentUser ? await getUserByEmail(JSON.parse(currentUser)?.email) : {}
 
 export const dashboardRoutes = [
   {
@@ -46,6 +49,15 @@ export const dashboardRoutes = [
         ],
       },
       {
+        path: 'user',
+        children: [
+          { element: <UserAccountPage />, index: true },
+          user?.role==="Admin" ? { path: 'list', element: <UserListPage /> } : "",
+          user?.role==="Admin" ? { path: 'new', element: <UserCreatePage /> } : "",
+          { path: 'account', element: <UserAccountPage /> }
+        ],
+      },
+      {
         path: 'product',
         children: [
           { element: <ProductListPage />, index: true },
@@ -60,16 +72,6 @@ export const dashboardRoutes = [
           { element: <OrderListPage />, index: true },
           { path: 'list', element: <OrderListPage /> },
           { path: ':id', element: <OrderDetailsPage /> },
-        ],
-      },
-      {
-        path: 'invoice',
-        children: [
-          { element: <InvoiceListPage />, index: true },
-          { path: 'list', element: <InvoiceListPage /> },
-          { path: ':id', element: <InvoiceDetailsPage /> },
-          { path: ':id/edit', element: <InvoiceEditPage /> },
-          { path: 'new', element: <InvoiceCreatePage /> },
         ],
       }
     ],

@@ -2,7 +2,7 @@
 import React, {useState} from "react"
 import {useNavigate} from "react-router-dom"
 //api
-import {getAllProducts} from "../../../api/product"
+import {getAllProducts} from "src/api/product"
 //components
 import Iconify from "../../../components/iconify"
 import BasicModal from "../../../components/modal"
@@ -12,6 +12,9 @@ import {AnyAction} from "redux"
 import {updateQuantity, addToCart, validateProduct, validatePaymentMethod} from "../../../redux/slice/checkout"
 //routes
 import {paths} from "../../../routes/paths"
+
+//
+const allProducts = await getAllProducts()
 
 type LineProp = {
     id: string
@@ -43,7 +46,7 @@ export const onChangeHook = (props:OnChangeProps) => {
     let input = props.input, nbr = 0
     const stateInput = state.input, eltInput = input.substring(input.length-1)
         , lines = state.lines
-        , product = getAllProducts[lines.length]
+        , product = allProducts[lines.length]
         , lineSelected = lines.find(x => x.selected)
         , totalOfLinesRegistered = lines.filter(x => !x.selected).reduce(
         (prev, curr) => prev+parseFloat(curr.priceTotal), 0)
@@ -64,7 +67,7 @@ export const onChangeHook = (props:OnChangeProps) => {
             stateInput+eltInput : eltInput
         const quantity = input ? parseInt(input) : 0
             , priceTotal = (product.price*quantity).toFixed(2)
-            , stock = product.quantity
+            , stock = product.available
             , total = (totalOfLinesRegistered + parseFloat(priceTotal)).toFixed(2).replace('.',',')
         if(lineSelected){
             if(quantity <= stock){

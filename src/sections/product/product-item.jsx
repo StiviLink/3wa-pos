@@ -13,20 +13,19 @@ import { fCurrency } from '../../utils/format-number'
 import { useDispatch } from '../../redux/store'
 import { addToCart } from '../../redux/slice/checkout'
 // components
-import Label from '../../components/label';
-import Image from '../../components/image';
-import Iconify from '../../components/iconify';
-import ColorPreview from '../../components/color-utils/color-preview';
+import Image from '../../components/image'
+import Iconify from '../../components/iconify'
+import ColorPreview from '../../components/color-utils/color-preview'
 
 // ----------------------------------------------------------------------
 
-export default function ProductItem({ product }) {
-  const { id, name, coverUrl, price, colors, available, sizes, priceSale, newLabel, saleLabel } =
-    product;
+export default function ProductItem({ product, addCart }) {
+  const { id, name, images, price, colors, available, sizes, priceSale } =
+    product, coverUrl = images[0]
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const linkTo = paths.product.details(id);
+  const linkTo = paths.dashboard.product.details(id)
 
   const handleAddCart = async () => {
     const newProduct = {
@@ -46,52 +45,34 @@ export default function ProductItem({ product }) {
     }
   }
 
-  const renderLabels = (newLabel.enabled || saleLabel.enabled) && (
-    <Stack
-      direction="row"
-      alignItems="center"
-      spacing={1}
-      sx={{ position: 'absolute', zIndex: 9, top: 16, right: 16 }}
-    >
-      {newLabel.enabled && (
-        <Label variant="filled" color="info">
-          {newLabel.content}
-        </Label>
-      )}
-      {saleLabel.enabled && (
-        <Label variant="filled" color="error">
-          {saleLabel.content}
-        </Label>
-      )}
-    </Stack>
-  );
-
   const renderImg = (
     <Box sx={{ position: 'relative', p: 1 }}>
-      <Fab
-        color="warning"
-        size="medium"
-        className="add-cart-btn"
-        onClick={handleAddCart}
-        sx={{
-          right: 16,
-          bottom: 16,
-          zIndex: 9,
-          opacity: 0,
-          position: 'absolute',
-          transition: (theme) =>
-            theme.transitions.create('all', {
-              easing: theme.transitions.easing.easeInOut,
-              duration: theme.transitions.duration.shorter,
-            }),
-        }}
-      >
-        <Iconify icon="solar:cart-plus-bold" width={24} />
-      </Fab>
+        {addCart ?
+            <Fab
+                color="warning"
+                size="medium"
+                className="add-cart-btn"
+                onClick={handleAddCart}
+                sx={{
+                    right: 16,
+                    bottom: 16,
+                    zIndex: 9,
+                    opacity: 0,
+                    position: 'absolute',
+                    transition: (theme) =>
+                        theme.transitions.create('all', {
+                            easing: theme.transitions.easing.easeInOut,
+                            duration: theme.transitions.duration.shorter,
+                        }),
+                }}
+            >
+                <Iconify icon="solar:cart-plus-bold" width={24} />
+            </Fab>
+         : ""}
 
       <Image alt={name} src={coverUrl} ratio="1/1" sx={{ borderRadius: 1.5 }} />
     </Box>
-  );
+  )
 
   const renderContent = (
     <Stack spacing={2.5} sx={{ p: 3, pt: 2 }}>
@@ -123,8 +104,6 @@ export default function ProductItem({ product }) {
         },
       }}
     >
-      {renderLabels}
-
       {renderImg}
 
       {renderContent}

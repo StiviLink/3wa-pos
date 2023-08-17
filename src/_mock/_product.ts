@@ -47,9 +47,9 @@ export const PRODUCT_GENDER_OPTIONS = [
   ];
 
   export const PRODUCT_STOCK_OPTIONS = [
-    { value: 'in stock', label: 'In stock' },
-    { value: 'low stock', label: 'Low stock' },
-    { value: 'out of stock', label: 'Out of stock' },
+    { value: 'in stock', label: 'In stock', min: 10 },
+    { value: 'low stock', label: 'Low stock', min: 0, max: 11 },
+    { value: 'out of stock', label: 'Out of stock', max: 1 },
   ];
 
   export const PRODUCT_PUBLISH_OPTIONS = [

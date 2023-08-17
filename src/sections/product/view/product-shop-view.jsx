@@ -19,12 +19,13 @@ import {
   PRODUCT_CATEGORY_OPTIONS,
 } from '../../../_mock/_product'
 // api
-import { getAllProducts, searchProduct } from 'src/api/product'
+import { searchProduct } from 'src/api/product'
 // components
 import EmptyContent from 'src/components/empty-content'
 import { useSettingsContext } from 'src/components/settings/context/settings-context'
 //
-import useCheckout from '../../hooks/use-checkout'
+import useCheckout from '../hooks/use-checkout'
+import useProducts from '../../hook/use-products'
 import CartIcon from '../common/cart-icon'
 import ProductList from '../product-list'
 import ProductSort from '../product-sort'
@@ -40,12 +41,14 @@ const defaultFilters = {
   rating: '',
   category: 'all',
   priceRange: [0, 200],
-};
+}
 
 // ----------------------------------------------------------------------
 
 export default function ProductShopView() {
   const settings = useSettingsContext()
+
+  const {allProducts} = useProducts()
 
   const { checkout } = useCheckout()
 
@@ -60,7 +63,7 @@ export default function ProductShopView() {
   const [filters, setFilters] = useState(defaultFilters)
 
   const { products, productsLoading, productsEmpty } = {
-    products: getAllProducts,
+    products: allProducts,
     productsLoading: false,
     productsEmpty: false
   }
@@ -108,7 +111,7 @@ export default function ProductShopView() {
         results={searchResults??[]}
         onSearch={handleSearch}
         loading={searchLoading}
-        hrefItem={(id) => paths.product.details(id)}
+        hrefItem={(id) => paths.dashboard.product.details(id)}
       />
 
       <Stack direction="row" spacing={1} flexShrink={0}>

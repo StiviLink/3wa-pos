@@ -1,11 +1,9 @@
 // @mui
-import LoadingButton from '@mui/lab/LoadingButton';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
+import LoadingButton from '@mui/lab/LoadingButton'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import MenuItem from '@mui/material/MenuItem'
+import Stack from '@mui/material/Stack'
 // components
 import Iconify from '../../components/iconify';
 import RouterLink from '../../routes/components/router-link';
@@ -17,8 +15,6 @@ import  usePopover from '../../components/custom-popover/use-popover'
 export default function ProductDetailsToolbar({
   publish,
   backLink,
-  editLink,
-  liveLink,
   publishOptions,
   onChangePublish,
   sx,
@@ -46,22 +42,6 @@ export default function ProductDetailsToolbar({
         </Button>
 
         <Box sx={{ flexGrow: 1 }} />
-
-        {publish === 'published' && (
-          <Tooltip title="Go Live">
-            <IconButton component={RouterLink} href={liveLink}>
-              <Iconify icon="eva:external-link-fill" />
-            </IconButton>
-          </Tooltip>
-        )}
-
-          {editLink && (
-              <Tooltip title="Edit">
-                  <IconButton component={RouterLink} href={editLink}>
-                      <Iconify icon="solar:pen-bold" />
-                  </IconButton>
-              </Tooltip>
-          )}
 
           {publishOptions && (
               <LoadingButton

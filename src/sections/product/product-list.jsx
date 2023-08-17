@@ -8,7 +8,7 @@ import {useState} from "react";
 
 // ----------------------------------------------------------------------
 
-export default function ProductList({ products, loading, maxi, ...other }) {
+export default function ProductList({ products, loading, maxi, addCart, ...other }) {
     if(!maxi) maxi = 8
     const [min, setMin] = useState(0)
     const [max, setMax] = useState(maxi-1)
@@ -33,7 +33,7 @@ export default function ProductList({ products, loading, maxi, ...other }) {
   const renderList = (
     <>
       {products.filter((x,i) => i>=min && i<=max).map((product) => (
-        <ProductItem key={product.id} product={product} />
+        <ProductItem key={product.id} product={product} addCart={addCart} />
       ))}
     </>
   )

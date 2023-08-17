@@ -1,0 +1,6 @@
+export {addressService} from "./address.service"
+export {imageService} from "./image.service"
+export {orderService} from "./order.service"
+export {productService} from "./product.service"
+export {productImageService} from "./product_image.service"
+export {userService} from "./user.service"

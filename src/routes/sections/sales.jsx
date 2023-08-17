@@ -1,8 +1,9 @@
 import { lazy, Suspense } from 'react'
+import {Outlet} from "react-router-dom"
 // auth
 import { AuthGuard } from 'src/auth/guard'
 // components
-import { SplashScreen } from 'src/components/loading-screen'
+import {LoadingScreen} from 'src/components/loading-screen'
 
 // ----------------------------------------------------------------------
 
@@ -13,30 +14,26 @@ const SalesInvoicePage = lazy(() => import('src/pages/sales/invoice'))
 
 
 const salesPayment = {
-  path: 'payment',
-  element: (
-      <AuthGuard>
-          <Suspense fallback={<SplashScreen />}>
-              <SalesPaymentPage />
-          </Suspense>
-      </AuthGuard>
-  )
+    path: 'payment',
+    index: true,
+    element: <SalesPaymentPage />
 }
 
 const salesInvoice = {
   path: 'invoice',
-  element: (
-      <AuthGuard>
-          <Suspense fallback={<SplashScreen />}>
-              <SalesInvoicePage />
-          </Suspense>
-      </AuthGuard>
-  )
+  element: <SalesInvoicePage />
 }
 
 export const salesRoutes = [
   {
     path: 'sales',
+    element: (
+        <AuthGuard>
+            <Suspense fallback={<LoadingScreen/>}>
+                <Outlet />
+            </Suspense>
+        </AuthGuard>
+    ),
     children: [salesPayment, salesInvoice],
   },
 ];

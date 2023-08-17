@@ -1,6 +1,6 @@
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 // sections
-import LoginView from "../../sections/auth/login"
+import LoginView from "src/sections/auth/login"
 
 // ----------------------------------------------------------------------
 

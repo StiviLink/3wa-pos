@@ -67,6 +67,8 @@ const slice = createSlice({
       state.discount = 0
       state.shipping = 0
       state.totalItems = 0
+      state.paymentMethod = {name: '', icon: '', selected: false}
+      state.money = []
     },
 
     addToMoney(state, action) {

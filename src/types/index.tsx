@@ -1,0 +1,6 @@
+export type {default as User} from './user'
+export type {default as Address} from './address'
+export type {default as Product} from './product'
+export type {default as Image} from './image'
+export type {default as ProductImage} from './product_image'
+export type {default as Order} from './order'

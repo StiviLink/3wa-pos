@@ -2,7 +2,6 @@ import { format } from 'date-fns';
 // @mui
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
@@ -12,13 +11,10 @@ import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 import LinearProgress from '@mui/material/LinearProgress';
 // utils
-import { fCurrency } from '../../utils/format-number';
-// hooks
-import { useBoolean } from '../../hooks/use-boolean';
+import { fCurrency } from '../../utils/format-number'
 // components
-import Label from '../../components/label';
-import Iconify from '../../components/iconify';
-import ConfirmDialog from '../../components/custom-dialog';
+import Label from '../../components/label'
+import Iconify from '../../components/iconify'
 import CustomPopover from '../../components/custom-popover/custom-popover'
 import usePopover from '../../components/custom-popover/use-popover'
 
@@ -28,25 +24,20 @@ export default function ProductTableRow({
   row,
   selected,
   onSelectRow,
-  onDeleteRow,
-  onEditRow,
   onViewRow,
 }) {
   const {
     name,
     price,
     publish,
-    coverUrl,
     category,
     quantity,
     createdAt,
-    available,
-    inventoryType,
-  } = row;
+    available
+  } = row, coverUrl = row.images[0], inventoryType = available <=0 ? 'out of stock' : available<=10 ?
+      'low stock' : 'in stock'
 
-  const confirm = useBoolean();
-
-  const popover = usePopover();
+  const popover = usePopover()
 
   return (
     <>
@@ -141,40 +132,7 @@ export default function ProductTableRow({
           <Iconify icon="solar:eye-bold" />
           View
         </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            onEditRow();
-            popover.onClose();
-          }}
-        >
-          <Iconify icon="solar:pen-bold" />
-          Edit
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            confirm.onTrue();
-            popover.onClose();
-          }}
-          sx={{ color: 'error.main' }}
-        >
-          <Iconify icon="solar:trash-bin-trash-bold" />
-          Delete
-        </MenuItem>
       </CustomPopover>
-
-      <ConfirmDialog
-        open={confirm.value}
-        onClose={confirm.onFalse}
-        title="Delete"
-        content="Are you sure want to delete?"
-        action={
-          <Button variant="contained" color="error" onClick={onDeleteRow}>
-            Delete
-          </Button>
-        }
-      />
     </>
   );
 }

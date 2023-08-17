@@ -3,7 +3,7 @@ import {useCallback, useState} from "react"
 //@mui
 import Container from "@mui/material/Container"
 //api
-import {getAllProducts, searchProduct} from "src/api/product"
+import {searchProduct} from "src/api/product"
 // components
 import {useSettingsContext} from 'src/components/settings/context/settings-context'
 //hook
@@ -13,9 +13,12 @@ import {paths} from "src/routes/paths"
 //
 import ProductList from "../product/product-list"
 import ProductSearch from "../product/product-search"
+import useProducts from "../hook/use-products"
 
 export default function SalesPointProduct(){
     const settings = useSettingsContext()
+
+    const {allProducts} = useProducts()
 
     const [searchQuery, setSearchQuery] = useState('')
 
@@ -37,7 +40,7 @@ export default function SalesPointProduct(){
                 loading={searchLoading}
                 hrefItem={(id) => paths.product.details(id)}
             />
-            <ProductList products={getAllProducts} maxi={8} />
+            <ProductList products={allProducts.filter(x => x.available>0)} maxi={8} addCart={true} />
         </Container>
     )
 }
