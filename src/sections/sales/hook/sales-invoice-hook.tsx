@@ -1,8 +1,21 @@
 //react
 import React, {useState} from "react"
+//node-modules
+import { Client, SendEmailV3_1, LibraryResponse } from 'node-mailjet'
 //components
 import Iconify from "../../../components/iconify"
 
+
+const mailjet = new Client({
+    apiKey: '98727bc19c9602ac2203cdd4261d652d',
+    apiToken: '554c78f99f8822a04108ff37b6c1b558',
+    options: {
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        }
+    },
+    config: {host: 'cors-anywhere.herokuapp.com/https://api.mailjet.com'}
+})
 interface Props {
     checkout: any
 }
@@ -39,8 +52,73 @@ const sendMail = (email:string) => {
             failed.style.display = 'inline'
         }
         else {
-            failed.innerText = 'Email envoyé'
-            failed.style.color = 'green'
+
+            (async () => {
+                const data: SendEmailV3_1.Body = {
+                    Messages: [
+                        {
+                            From: {
+                                Email: 'pilot@test.com',
+                            },
+                            To: [
+                                {
+                                    Email: email,
+                                },
+                            ],
+                            TemplateErrorReporting: {
+                                Email: 'reporter@test.com',
+                                Name: 'Reporter',
+                            },
+                            Subject: 'Your email flight plan!',
+                            HTMLPart: '<h3>Dear passenger, welcome to Mailjet!</h3><br />May the delivery force be with you!',
+                            TextPart: 'Dear passenger, welcome to Mailjet! May the delivery force be with you!',
+                        },
+                    ],
+                }
+
+                console.log('mailjet', mailjet)
+                const result: LibraryResponse<SendEmailV3_1.Response> = await mailjet
+                    .post('send', { version: 'v3.1', host: 'api.mailjet.com',  })
+                    .request(data)
+                console.log('result', result)
+            })()
+            const request = mailjet
+                .post('send', { version: 'v3.1' })
+                .request({
+                    Messages: [
+                        {
+                            From: {
+                                Email: "test@mail.com",
+                                Name: "Test Mail"
+                            },
+                            To: [
+                                {
+                                    Email: email,
+                                    Name: "Stivi"
+                                }
+                            ],
+                            Subject: "Facture lors de l'achat",
+                            TextPart: "Voici votre facture lors de l'achat éffectué récemment",
+                            HTMLPart: "<h3>Dear passenger 1, welcome to <a href=\"https://www.mailjet.com/\">" +
+                                "Mailjet</a>!</h3><br />May the delivery force be with you!"
+                        }
+                    ]
+                })
+            request
+                .then(result => {
+                    console.log('result', result)
+                    console.log('result body', result.body)
+                    failed.innerText = 'Email envoyé'
+                    failed.style.color = 'green'
+                    failed.style.display = 'inline'
+                })
+                .catch(err => {
+                    console.log('error', err)
+                    console.log('error code', err.statusCode)
+                    failed.innerText = err.message
+                    failed.style.color = '#a85959'
+                    failed.style.display = 'inline'
+                })
         }
     }
 }
