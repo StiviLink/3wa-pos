@@ -6,7 +6,7 @@ import {AuthGuard} from "../../auth/guard"
 import DashboardLayout from 'src/layouts/dashboard'
 // components
 import { LoadingScreen } from 'src/components/loading-screen'
-import {getUserByEmail} from "../../api/user";
+import {getUserByEmail} from "../../api/user"
 
 // ----------------------------------------------------------------------
 // SALES

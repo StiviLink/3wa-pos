@@ -104,26 +104,32 @@ export default function UserNewEditForm({ currentUser }) {
             if(await createUser(data)){
                 data.status = data.isVerified ? 'active' : 'pending'
                 onAddToUsers(data)
-                const dataEmail = {
-                    Recipients: [{Email: data.email}],
-                    Content: {
-                        Body: [
-                            {
-                                ContentType: "HTML",
-                                Content: `<h1><strong>Veuillez activer votre compte POS</strong></h1>
+                if(!data.isVerified){
+                    const dataEmail = {
+                        Recipients: [{Email: data.email}],
+                        Content: {
+                            Body: [
+                                {
+                                    ContentType: "HTML",
+                                    Content: `<h1><strong>Veuillez activer votre compte POS</strong></h1>
 <p><a href=${'http://localhost:3000'+paths.auth.login+'?activate='+data.idConnexion+'&returnTo='+paths.dashboard.user.account}>Cliquez sur ce lien pour activer votre compte</a></p>
 <br/><p>Votre mot de passe de connexion est <strong>password</strong>! Prière de le modifier une fois connecté</p>`,
-                                Charset: "UTF-8"
-                            }
-                        ],
-                        From: "Stivi Linkid <stivi-linkid@hotmail.com>",
-                        Subject: "Activation du compte POS"
+                                    Charset: "UTF-8"
+                                }
+                            ],
+                            From: "Stivi Linkid <stivi-linkid@hotmail.com>",
+                            Subject: "Activation du compte POS"
+                        }
                     }
+                    axiosMailSend(dataEmail).then(() => {
+                        reset()
+                        router.push(paths.dashboard.user.list)
+                    })
                 }
-                axiosMailSend(dataEmail).then(() => {
+                else{
                     reset()
                     router.push(paths.dashboard.user.list)
-                })
+                }
             }
         }
         else {

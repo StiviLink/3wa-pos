@@ -21,6 +21,8 @@ import useUser from "src/sections/hook/use-user"
 
 // ----------------------------------------------------------------------
 
+console.log('account popover start')
+
 const OPTIONS = [
   {
     label: 'Home',
@@ -46,11 +48,11 @@ export default function AccountPopover() {
 
   const popover = usePopover()
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     try {
-        await logout()
+        logout()
         popover.onClose()
-        router.reload()
+        router.push(paths.auth.login)
     }
     catch (error) {
       console.error(error)
@@ -124,3 +126,5 @@ export default function AccountPopover() {
     </>
   );
 }
+
+console.log('account popover end')

@@ -21,7 +21,7 @@ export const currentUser = async (sessionUser:UserProps) => {
 }
 export const signIn = async (email:string, password:string) => {
     const user = await getUserByEmail(email)
-    if(user && verifyPassword(password, user.password)){
+    if(user?.id && verifyPassword(password, user.password)){
         const idConnexion = uuidv4()
         console.info(`update user`, await updateUser({...user, idUser: user.id, idConnexion}))
         return {

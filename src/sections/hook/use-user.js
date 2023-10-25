@@ -11,6 +11,8 @@ import {
 
 // ----------------------------------------------------------------------
 
+console.log('use user start')
+
 export default function useUser() {
   const dispatch = useDispatch()
 
@@ -77,3 +79,5 @@ export default function useUser() {
     onDeleteToUsers
   }
 }
+
+console.log('use user end')

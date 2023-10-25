@@ -44,13 +44,17 @@ form fieldset {
 }
 
 .auth-notice {
+  width: 100%;
   text-align: center;
   display: flex;
-  margin-top: 6px;
 }
 .auth-notice .failed {
   display: none;
+  width: 100%;
+  text-align: center;
   color: #a85959;
+  font-size: large;
+  font-weight: bolder;
 }
 
 @media screen and (max-width: 800px) {

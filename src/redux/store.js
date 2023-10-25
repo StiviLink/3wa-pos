@@ -5,6 +5,8 @@ import {rootReducer} from './root-reducer'
 
 // ----------------------------------------------------------------------
 
+console.log('store start')
+
 const App = () => {
     return useDispatch()
 }
@@ -40,3 +42,5 @@ export const persistor = persistStore(store)
 export const useSelector = useAppSelector
 
 export const useDispatch = () => useAppDispatch()
+
+console.log('store end')

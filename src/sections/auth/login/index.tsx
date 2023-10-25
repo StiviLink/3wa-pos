@@ -85,6 +85,9 @@ const LoginView = () => {
             {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
             <form>
                 <h1>Login</h1>
+                <div className="auth-notice">
+                    <div className="failed" id="failed"></div>
+                </div>
                 <fieldset>
                     <div className="divGroup">
                         <div className="divLabel"><label htmlFor="email">Email</label></div>
@@ -102,9 +105,6 @@ const LoginView = () => {
                     </div>
                 </fieldset>
             </form>
-            <div className="auth-notice">
-                <div className="failed" id="failed"></div>
-            </div>
         </>
     )
 }

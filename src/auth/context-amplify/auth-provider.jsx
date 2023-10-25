@@ -6,35 +6,34 @@ import auth from "../../api/auth"
 import {useSessionStorage} from "../../hooks/use-session-storage"
 
 // ----------------------------------------------------------------------
-const Types = {
-  INITIAL : 'INITIAL',
-  LOGOUT : 'LOGOUT'
-}
-
-const initialState = {
-  user: null,
-  loading: true,
-}
-
-const reducer = (state, action) => {
-  if (action.type === Types.INITIAL) {
-    return {
-      loading: false,
-      user: action.payload.user,
-    }
-  }
-  if (action.type === Types.LOGOUT) {
-    return {
-      ...state,
-      user: null,
-    }
-  }
-  return state
-}
-
-// ----------------------------------------------------------------------
-
+console.log('auth provider start')
 export function AuthProvider({ children }) {
+  const Types = {
+    INITIAL : 'INITIAL',
+    LOGOUT : 'LOGOUT'
+  }
+
+  const initialState = {
+    user: null,
+    loading: true,
+  }
+
+  const reducer = (state, action) => {
+    if (action.type === Types.INITIAL) {
+      return {
+        loading: false,
+        user: action.payload.user,
+      }
+    }
+    if (action.type === Types.LOGOUT) {
+      return {
+        ...state,
+        user: null,
+      }
+    }
+    return state
+  }
+
   const [state, dispatch] = useReducer(reducer, initialState)
   const [sessionUser, setSessionUser, removeCurrentUser] = useSessionStorage('currentUser', null)
 

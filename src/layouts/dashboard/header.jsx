@@ -20,6 +20,8 @@ import {
   AccountPopover
 } from '../_common'
 
+console.log('header start')
+
 // ----------------------------------------------------------------------
 export default function Header({ onOpenNav }) {
   const theme = useTheme();
@@ -101,3 +103,5 @@ export default function Header({ onOpenNav }) {
     </AppBar>
   );
 }
+
+console.log('header start')

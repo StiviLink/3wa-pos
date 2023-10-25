@@ -14,6 +14,7 @@ import SnackbarProvider from "./components/snackbar/snackbar-provider"
 import ProgressBar from "./components/progress-bar"
 import Router from "./routes/sections"
 
+console.log('app start')
 const App = () => {
   return (
       <>

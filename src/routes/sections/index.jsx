@@ -11,6 +11,8 @@ import {LoadingScreen} from "../../components/loading-screen"
 //auth
 import {AuthGuard} from "../../auth/guard"
 
+console.log('Router start')
+
 const ProductShopPage = lazy(() => import('src/pages/dashboard/product/shop'))
 
 // ----------------------------------------------------------------------
